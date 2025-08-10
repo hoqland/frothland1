@@ -1,108 +1,64 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="zh">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Frothland · 网站建设中 | Site under construction</title>
+  <meta charset="UTF-8">
+  <title>Frothland</title>
   <style>
-    :root{
-      --glass: rgba(0,0,0,.45);
-      --accent: #ff7e5f;
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+      color: white;
+      text-align: center;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0; height:100vh;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft Yahei","Noto Sans CJK SC",sans-serif;
-      color:#fff; text-align:center;
-      background:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat fixed;
-      display:flex; align-items:center; justify-content:center;
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
     }
-    /* 主卡片 */
-    .card{
-      background:var(--glass);
-      backdrop-filter:saturate(140%) blur(6px);
-      padding:42px 28px; border-radius:14px; max-width:760px; width:min(92%,760px);
-      opacity:0; transform:translateY(12px); transition:.5s ease;
+    p {
+      font-size: 2rem;
+      margin-bottom: 40px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
     }
-    .card.show{opacity:1; transform:none}
-    h1{font-size:2.2rem; margin:0 0 .6rem}
-    .cn{font-size:1.05rem; opacity:.92; margin:.2rem 0 1rem}
-    .en{font-size:1.05rem; opacity:.9; margin:0 0 1.2rem}
-    .note{font-size:.9rem; opacity:.8}
-
-    /* 欢迎遮罩 */
-    .gate{
-      position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-      background:rgba(0,0,0,.55);
-      transition:opacity .5s ease, visibility .5s ease;
+    button {
+      font-size: 1.5rem;
+      padding: 15px 35px;
+      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
     }
-    .gate.hide{opacity:0; visibility:hidden}
-    .panel{
-      background:var(--glass);
-      backdrop-filter:saturate(140%) blur(6px);
-      padding:46px 30px; border-radius:16px; width:min(92%,560px)
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
     }
-    .btn{
-      display:inline-block; margin-top:16px; padding:10px 18px; border-radius:10px;
-      background:var(--accent); color:#fff; text-decoration:none; font-weight:600;
-      transition:.25s; cursor:pointer; border:none;
-    }
-    .btn:hover{background:#feb47b}
-    .hint{font-size:.9rem; opacity:.85; margin-top:10px}
   </style>
 </head>
 <body>
+  <h1>网站建设中</h1>
+  <p>Website Under Construction</p>
+  <button onclick="enterSite()">Click to Enter</button>
 
-  <!-- 欢迎页：点击后进入并开声音 -->
-  <div class="gate" id="gate">
-    <div class="panel">
-      <h1>点击进入 · Enter Frothland</h1>
-      <p class="cn">为确保良好体验，请点击进入以开启背景音乐。</p>
-      <p class="en">Please tap/click to enter and enable background music.</p>
-      <button class="btn" id="enterBtn">进入 Enter</button>
-      <div class="hint">若无声音，请再次轻点页面 · If no sound, tap once</div>
-    </div>
-  </div>
-
-  <!-- 主内容：网站建设中 -->
-  <main class="card" id="card">
-    <h1>网站建设中 · Site under construction</h1>
-    <p class="cn">我们的家园正在搭建中，敬请期待。</p>
-    <p class="en">We’re crafting Frothland — please check back soon.</p>
-    <p class="note">© Frothland</p>
-  </main>
-
-  <!-- 背景音乐（静音预播，进入后开声） -->
   <audio id="bgm" autoplay loop muted>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_1f70e3b5c2.mp3?filename=calm-landscape-112199.mp3" type="audio/mpeg">
+    <source src="https://assets.mixkit.co/music/preview/mixkit-calm-sunny-day-528.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    const gate = document.getElementById('gate');
-    const card = document.getElementById('card');
-    const btn  = document.getElementById('enterBtn');
-    const bgm  = document.getElementById('bgm');
-
-    function enterSite(){
-      // 尝试开启声音并播放
-      bgm.muted = false;
-      const playTry = bgm.play?.();
-      if (playTry && typeof playTry.then === 'function') {
-        playTry.catch(()=>{/* 某些浏览器可能仍需再次点击 */});
-      }
-      // 关欢迎页，显示主卡片
-      gate.classList.add('hide');
-      card.classList.add('show');
+    function enterSite() {
+      const audio = document.getElementById('bgm');
+      audio.muted = false;
+      alert("欢迎来到 Frothland！");
     }
-
-    btn.addEventListener('click', enterSite);
-    // 备用：如果用户点别处也触发
-    document.addEventListener('keydown', enterSite, { once:true });
-    document.addEventListener('click', (e)=>{
-      if (gate && !e.target.closest('#enterBtn')) return; // 只在按钮点击时
-    });
-    // 页面就绪时显示主卡片（无障碍动画）
-    window.addEventListener('load', ()=> card.classList.add('show'));
   </script>
 </body>
 </html>
+
