@@ -75,15 +75,15 @@
             100% { background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet); }
         }
 
-        /* 鼠标跟随仓鼠 */
+        /* 鼠标跟随图片 */
         .hamster {
             position: absolute;
             width: 50px;
             height: 50px;
-            background-image: url('https://cdn.pixabay.com/photo/2017/08/30/09/25/hamster-2695016_960_720.jpg'); /* 这是一个仓鼠图片 */
+            background-image: url('https://via.placeholder.com/50'); /* 使用了一个占位图图片链接 */
             background-size: cover;
             pointer-events: none;
-            transition: transform 0.2s ease-in-out;
+            transition: transform 0.1s ease-in-out;
         }
     </style>
 </head>
@@ -98,7 +98,7 @@
     <!-- 时钟 -->
     <div id="clock"></div>
 
-    <!-- 鼠标跟随仓鼠 -->
+    <!-- 鼠标跟随图片 -->
     <div id="hamster" class="hamster"></div>
 
     <script>
@@ -121,8 +121,8 @@
         // 鼠标跟随效果
         document.addEventListener('mousemove', (event) => {
             const hamster = document.getElementById('hamster');
-            hamster.style.left = `${event.pageX - 25}px`; // 调整仓鼠图片位置
-            hamster.style.top = `${event.pageY - 25}px`;
+            hamster.style.left = `${event.pageX - 25}px`; // 调整图片的水平位置
+            hamster.style.top = `${event.pageY - 25}px`;  // 调整图片的垂直位置
         });
     </script>
 </body>
