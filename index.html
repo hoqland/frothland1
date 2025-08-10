@@ -48,9 +48,9 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
         }
 
-        /* 新增顶部区域 */
+        /* 顶部欢迎区域 */
         #header {
-            position: absolute;
+            position: fixed; /* 使用固定定位 */
             top: 0;
             left: 0;
             width: 100%;
@@ -60,12 +60,14 @@
             color: white;
             font-size: 2em; /* 增大字体 */
             font-weight: bold;
+            z-index: 9999; /* 确保它位于页面最上层 */
         }
 
         #language-buttons {
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
+            z-index: 9999;
         }
 
         #language-buttons button {
