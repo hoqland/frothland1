@@ -17,7 +17,6 @@
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
             font-family: Arial, sans-serif;
-            overflow: hidden;
         }
         h1 {
             font-size: 3em;
@@ -49,43 +48,20 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
         }
 
-        /* 顶部区域 */
+        /* 新增顶部区域 */
         #header {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: black;
+            background-color: rgba(0, 0, 0, 0.8); /* 更深的背景色 */
             padding: 20px;
             text-align: center;
             color: white;
-            font-size: 2em;
+            font-size: 2em; /* 增大字体 */
             font-weight: bold;
-            animation: rainbow 5s linear infinite;
         }
 
-        @keyframes rainbow {
-            0% { background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet); }
-            14% { background: linear-gradient(45deg, violet, red, orange, yellow, green, blue, indigo); }
-            28% { background: linear-gradient(45deg, indigo, violet, red, orange, yellow, green, blue); }
-            42% { background: linear-gradient(45deg, blue, indigo, violet, red, orange, yellow, green); }
-            57% { background: linear-gradient(45deg, green, blue, indigo, violet, red, orange, yellow); }
-            71% { background: linear-gradient(45deg, yellow, green, blue, indigo, violet, red, orange); }
-            85% { background: linear-gradient(45deg, orange, yellow, green, blue, indigo, violet, red); }
-            100% { background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet); }
-        }
-
-        /* 鼠标跟随图片 */
-        .hamster {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background-image: url('https://via.placeholder.com/50'); /* 占位图片 */
-            background-size: cover;
-            pointer-events: none;
-        }
-
-        /* 语言切换按钮样式 */
         #language-buttons {
             position: absolute;
             top: 20px;
@@ -112,6 +88,12 @@
     <!-- 顶部欢迎区域 -->
     <div id="header">Welcome</div>
 
+    <!-- 语言切换按钮 -->
+    <div id="language-buttons">
+        <button onclick="switchLanguage('zh')">中文</button>
+        <button onclick="switchLanguage('en')">English</button>
+    </div>
+
     <h1 id="siteTitle">网站建设中</h1>
     <h2 id="siteSubtitle">Website Under Construction</h2>
     <a href="wait.html" class="btn">等待时间</a>
@@ -119,17 +101,7 @@
     <!-- 时钟 -->
     <div id="clock"></div>
 
-    <!-- 鼠标跟随图片 -->
-    <div id="hamster" class="hamster"></div>
-
-    <!-- 语言切换按钮 -->
-    <div id="language-buttons">
-        <button onclick="switchLanguage('zh')">中文</button>
-        <button onclick="switchLanguage('en')">English</button>
-    </div>
-
     <script>
-        // 更新时钟
         function updateClock() {
             const options = { 
                 timeZone: 'Europe/London',
@@ -144,13 +116,6 @@
 
         setInterval(updateClock, 1000); // 每秒更新时间
         updateClock(); // 页面加载时先显示一次时间
-
-        // 鼠标跟随效果
-        document.addEventListener('mousemove', (event) => {
-            const hamster = document.getElementById('hamster');
-            hamster.style.left = `${event.pageX - 25}px`; // 调整仓鼠图片位置
-            hamster.style.top = `${event.pageY - 25}px`;  // 调整仓鼠图片位置
-        });
 
         // 语言切换
         function switchLanguage(language) {
