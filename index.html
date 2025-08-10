@@ -54,12 +54,24 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* 更深的背景色 */
+            background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+            animation: rainbow 5s linear infinite;
             padding: 20px;
             text-align: center;
             color: white;
             font-size: 2em; /* 增大字体 */
             font-weight: bold;
+        }
+
+        @keyframes rainbow {
+            0% { background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet); }
+            14% { background: linear-gradient(45deg, violet, red, orange, yellow, green, blue, indigo); }
+            28% { background: linear-gradient(45deg, indigo, violet, red, orange, yellow, green, blue); }
+            42% { background: linear-gradient(45deg, blue, indigo, violet, red, orange, yellow, green); }
+            57% { background: linear-gradient(45deg, green, blue, indigo, violet, red, orange, yellow); }
+            71% { background: linear-gradient(45deg, yellow, green, blue, indigo, violet, red, orange); }
+            85% { background: linear-gradient(45deg, orange, yellow, green, blue, indigo, violet, red); }
+            100% { background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet); }
         }
 
         #language-buttons {
@@ -82,6 +94,17 @@
             background: white;
             color: black;
         }
+
+        /* 鼠标跟随变成仓鼠 */
+        .hamster {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://www.example.com/hamster.png'); /* 替换成仓鼠图片 */
+            background-size: cover;
+            pointer-events: none;
+            transition: transform 0.2s ease-in-out;
+        }
     </style>
 </head>
 <body>
@@ -101,7 +124,11 @@
     <!-- 时钟 -->
     <div id="clock"></div>
 
+    <!-- 鼠标跟随仓鼠 -->
+    <div id="hamster" class="hamster"></div>
+
     <script>
+        // 更新时钟
         function updateClock() {
             const options = { 
                 timeZone: 'Europe/London',
@@ -131,6 +158,13 @@
                 document.getElementById('header').textContent = 'Welcome';
             }
         }
+
+        // 鼠标跟随效果
+        document.addEventListener('mousemove', (event) => {
+            const hamster = document.getElementById('hamster');
+            hamster.style.left = `${event.pageX - 25}px`; // 调整仓鼠图片位置
+            hamster.style.top = `${event.pageY - 25}px`;
+        });
     </script>
 </body>
 </html>
