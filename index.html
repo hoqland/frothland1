@@ -41,11 +41,37 @@
             background: white;
             color: black;
         }
+        #clock {
+            margin-top: 20px;
+            font-size: 2em;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
     </style>
 </head>
 <body>
     <h1>网站建设中</h1>
     <h2>Website Under Construction</h2>
     <a href="wait.html" class="btn">等待时间</a>
+
+    <!-- 时钟 -->
+    <div id="clock"></div>
+
+    <script>
+        function updateClock() {
+            const options = { 
+                timeZone: 'Europe/London',
+                hour12: true,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            const time = new Date().toLocaleTimeString('en-GB', options);
+            document.getElementById('clock').textContent = time;
+        }
+
+        setInterval(updateClock, 1000); // 每秒更新时间
+        updateClock(); // 页面加载时先显示一次时间
+    </script>
 </body>
 </html>
