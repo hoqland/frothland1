@@ -46,15 +46,17 @@
 <body>
   <h1>网站建设中</h1>
   <p>Website Under Construction</p>
-  <button onclick="enterSite()">Click to Enter</button>
+  <button onclick="startMusic()">确认进入 / Click to Enter</button>
 
   <audio id="bgm" loop>
     <source src="https://assets.mixkit.co/music/preview/mixkit-calm-sunny-day-528.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    function enterSite() {
+    function startMusic() {
       const audio = document.getElementById('bgm');
+      audio.volume = 1.0; // 最大音量
+      audio.muted = false; // 取消静音
       audio.play()
         .then(() => {
           alert("欢迎来到 Frothland！");
