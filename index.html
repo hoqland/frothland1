@@ -48,17 +48,21 @@
   <p>Website Under Construction</p>
   <button onclick="enterSite()">Click to Enter</button>
 
-  <audio id="bgm" autoplay loop muted>
+  <audio id="bgm" loop>
     <source src="https://assets.mixkit.co/music/preview/mixkit-calm-sunny-day-528.mp3" type="audio/mpeg">
   </audio>
 
   <script>
     function enterSite() {
       const audio = document.getElementById('bgm');
-      audio.muted = false;
-      alert("欢迎来到 Frothland！");
+      audio.play()
+        .then(() => {
+          alert("欢迎来到 Frothland！");
+        })
+        .catch(err => {
+          console.log("播放失败：", err);
+        });
     }
   </script>
 </body>
 </html>
-
