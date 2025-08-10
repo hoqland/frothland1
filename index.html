@@ -47,11 +47,54 @@
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
         }
+
+        /* 新增顶部区域 */
+        #header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            text-align: center;
+            color: white;
+            font-size: 1.5em;
+        }
+
+        #language-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        #language-buttons button {
+            margin-left: 10px;
+            padding: 8px 16px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: 2px solid white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #language-buttons button:hover {
+            background: white;
+            color: black;
+        }
     </style>
 </head>
 <body>
-    <h1>网站建设中</h1>
-    <h2>Website Under Construction</h2>
+    <!-- 顶部欢迎区域 -->
+    <div id="header">Welcome</div>
+
+    <!-- 语言切换按钮 -->
+    <div id="language-buttons">
+        <button onclick="switchLanguage('zh')">中文</button>
+        <button onclick="switchLanguage('en')">English</button>
+    </div>
+
+    <h1 id="siteTitle">网站建设中</h1>
+    <h2 id="siteSubtitle">Website Under Construction</h2>
     <a href="wait.html" class="btn">等待时间</a>
 
     <!-- 时钟 -->
@@ -72,6 +115,21 @@
 
         setInterval(updateClock, 1000); // 每秒更新时间
         updateClock(); // 页面加载时先显示一次时间
+
+        // 语言切换
+        function switchLanguage(language) {
+            if (language === 'en') {
+                document.getElementById('siteTitle').textContent = 'Website Under Construction';
+                document.getElementById('siteSubtitle').textContent = 'Website Under Construction';
+                document.querySelector('.btn').textContent = 'Waiting Time';
+                document.getElementById('header').textContent = 'Welcome';
+            } else if (language === 'zh') {
+                document.getElementById('siteTitle').textContent = '网站建设中';
+                document.getElementById('siteSubtitle').textContent = 'Website Under Construction';
+                document.querySelector('.btn').textContent = '等待时间';
+                document.getElementById('header').textContent = 'Welcome';
+            }
+        }
     </script>
 </body>
 </html>
