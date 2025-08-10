@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>网站维护中</title>
+  <!-- 临时不让搜索引擎收录，恢复网站时删掉这行 -->
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root { --gap: 16px; --radius: 14px; }
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #eaeaea;
+      background: #0b0f19;
+    }
+    .wrap {
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      padding: calc(var(--gap) * 2);
+      background:
+        radial-gradient(1200px 600px at 10% 10%, #1b2a4b 0%, transparent 60%),
+        radial-gradient(1000px 500px at 90% 20%, #1f3b37 0%, transparent 60%),
+        radial-gradient(800px 400px at 50% 90%, #2a1f3b 0%, transparent 60%),
+        #0b0f19;
+    }
+    .card {
+      width: min(720px, 92vw);
+      backdrop-filter: blur(6px);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: calc(var(--gap) * 2);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+    }
+    h1 {
+      margin: 0 0 var(--gap) 0;
+      font-size: clamp(22px, 4vw, 32px);
+      letter-spacing: .5px;
+    }
+    p {
+      margin: 0 0 var(--gap) 0;
+      line-height: 1.65;
+      color: #cfd6e6;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      margin-bottom: var(--gap);
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--gap);
+      margin-top: calc(var(--gap) * 1.5);
+    }
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      color: #fff;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.28); }
+    .muted { opacity: .75; }
+    .footer {
+      margin-top: calc(var(--gap) * 1.5);
+      font-size: 12px;
+      color: #98a2b3;
+    }
+    .clock {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      letter-spacing: .5px;
+      margin-left: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main class="card" role="main">
+      <div class="badge">Maintenance</div>
+      <h1>网站维护中</h1>
+      <p>我们正在进行短暂维护与更新。期间页面会暂时不可用，敬请谅解。</p>
+      <p class="muted">如果你是站长：把原来的首页改名为 <code>index_backup.html</code>，等维护结束后再把它改回 <code>index.html</code> 即可恢复。</p>
+
+      <div class="row">
+        <div>
+          <p class="muted">当前时间（伦敦）<span class="clock" id="clock">--:--:--</span></p>
+          <a class="btn" href="mailto:yourname@example.com">联系站长</a>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span>提示：恢复上线后，记得删除本页里的 <code>&lt;meta name="robots" ...&gt;</code> 以便搜索引擎重新收录。</span>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // 简单伦敦时钟（Europe/London）
+    const el = document.getElementById('clock');
+    function tick() {
+      const fmt = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/London',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      });
+      el.textContent = fmt.format(new Date());
+    }
+    tick(); setInterval(tick, 1000);
+  </script>
+</body>
+</html>
