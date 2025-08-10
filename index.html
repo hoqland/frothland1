@@ -80,10 +80,9 @@
             position: absolute;
             width: 50px;
             height: 50px;
-            background-image: url('https://via.placeholder.com/50'); /* 使用一个占位图图片链接 */
+            background-image: url('https://via.placeholder.com/50'); /* 占位图片 */
             background-size: cover;
             pointer-events: none;
-            transition: transform 0.1s ease-in-out;
         }
     </style>
 </head>
@@ -100,6 +99,12 @@
 
     <!-- 鼠标跟随图片 -->
     <div id="hamster" class="hamster"></div>
+
+    <!-- 语言切换按钮 -->
+    <div id="language-buttons">
+        <button onclick="switchLanguage('zh')">中文</button>
+        <button onclick="switchLanguage('en')">English</button>
+    </div>
 
     <script>
         // 更新时钟
@@ -121,9 +126,24 @@
         // 鼠标跟随效果
         document.addEventListener('mousemove', (event) => {
             const hamster = document.getElementById('hamster');
-            hamster.style.left = `${event.pageX - 25}px`; // 调整仓鼠图片水平位置
-            hamster.style.top = `${event.pageY - 25}px`;  // 调整仓鼠图片垂直位置
+            hamster.style.left = `${event.pageX - 25}px`; // 调整仓鼠图片位置
+            hamster.style.top = `${event.pageY - 25}px`;  // 调整仓鼠图片位置
         });
+
+        // 语言切换
+        function switchLanguage(language) {
+            if (language === 'en') {
+                document.getElementById('siteTitle').textContent = 'Website Under Construction';
+                document.getElementById('siteSubtitle').textContent = 'Website Under Construction';
+                document.querySelector('.btn').textContent = 'Waiting Time';
+                document.getElementById('header').textContent = 'Welcome';
+            } else if (language === 'zh') {
+                document.getElementById('siteTitle').textContent = '网站建设中';
+                document.getElementById('siteSubtitle').textContent = 'Website Under Construction';
+                document.querySelector('.btn').textContent = '等待时间';
+                document.getElementById('header').textContent = 'Welcome';
+            }
+        }
     </script>
 </body>
 </html>
