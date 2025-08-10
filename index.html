@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -48,34 +49,19 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
         }
 
-        /* 顶部炫彩动态背景区域 */
+        /* 顶部欢迎区域 */
         #header {
-            position: fixed;
+            position: fixed; /* 使用固定定位 */
             top: 0;
             left: 0;
             width: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* 更深的背景色 */
             padding: 20px;
             text-align: center;
             color: white;
-            font-size: 2em;
+            font-size: 2em; /* 增大字体 */
             font-weight: bold;
-            z-index: 9999;
-            background: linear-gradient(45deg, #ff6b6b, #ff9e9e, #ffc3a0, #ff6b81, #8e44ad);
-            background-size: 400% 400%;
-            animation: gradientAnimation 5s ease infinite;
-        }
-
-        /* 炫彩渐变动画 */
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            z-index: 9999; /* 确保它位于页面最上层 */
         }
 
         #language-buttons {
