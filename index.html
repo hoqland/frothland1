@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Frothland · 网站建设中 | Site under construction</title>
   <style>
-    /* 全屏背景 */
     body{
       margin:0; height:100vh;
       background:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat fixed;
@@ -19,7 +18,7 @@
       padding:42px 28px; border-radius:14px; max-width:760px;
     }
     h1{font-size:2.4rem; margin:0 0 .6rem;}
-    .en{font-size:1.1rem; letter-spacing:.3px; opacity:.9; margin:0 0 1.2rem;}
+    .en{font-size:1.1rem; opacity:.9; margin:0 0 1.2rem;}
     .cn{font-size:1.05rem; opacity:.92; margin:0 0 1.2rem;}
     .note{font-size:.95rem; opacity:.8}
     .btn{
@@ -34,9 +33,19 @@
     <h1>网站建设中 · Site under construction</h1>
     <p class="cn">我们的家园正在搭建中，敬请期待。</p>
     <p class="en">We’re crafting Frothland — please check back soon.</p>
-    <!-- 可选：放一个联系邮箱或按钮 -->
-    <!-- <a class="btn" href="mailto:hello@frothland.com">联系 Contact</a> -->
     <p class="note">© Frothland</p>
   </div>
+
+  <!-- 背景音乐（静音自动播放 + 点击开声） -->
+  <audio id="bgm" autoplay loop muted>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_1f70e3b5c2.mp3?filename=calm-landscape-112199.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // 用户第一次点击页面时开启声音
+    document.body.addEventListener('click', function(){
+      document.getElementById('bgm').muted = false;
+    }, {once:true});
+  </script>
 </body>
 </html>
