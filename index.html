@@ -17,6 +17,7 @@
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
             font-family: Arial, sans-serif;
+            overflow: hidden;
         }
         h1 {
             font-size: 3em;
@@ -48,19 +49,19 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
         }
 
-        /* 新增顶部区域 */
+        /* 顶部区域 */
         #header {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
-            animation: rainbow 5s linear infinite;
+            background-color: black;
             padding: 20px;
             text-align: center;
             color: white;
-            font-size: 2em; /* 增大字体 */
+            font-size: 2em;
             font-weight: bold;
+            animation: rainbow 5s linear infinite;
         }
 
         @keyframes rainbow {
@@ -74,33 +75,12 @@
             100% { background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet); }
         }
 
-        #language-buttons {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        #language-buttons button {
-            margin-left: 15px;
-            padding: 8px 16px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: 2px solid white;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        #language-buttons button:hover {
-            background: white;
-            color: black;
-        }
-
-        /* 鼠标跟随变成仓鼠 */
+        /* 鼠标跟随仓鼠 */
         .hamster {
             position: absolute;
             width: 50px;
             height: 50px;
-            background-image: url('https://www.example.com/hamster.png'); /* 替换成仓鼠图片 */
+            background-image: url('https://cdn.pixabay.com/photo/2017/08/30/09/25/hamster-2695016_960_720.jpg'); /* 这是一张仓鼠图片 */
             background-size: cover;
             pointer-events: none;
             transition: transform 0.2s ease-in-out;
@@ -110,12 +90,6 @@
 <body>
     <!-- 顶部欢迎区域 -->
     <div id="header">Welcome</div>
-
-    <!-- 语言切换按钮 -->
-    <div id="language-buttons">
-        <button onclick="switchLanguage('zh')">中文</button>
-        <button onclick="switchLanguage('en')">English</button>
-    </div>
 
     <h1 id="siteTitle">网站建设中</h1>
     <h2 id="siteSubtitle">Website Under Construction</h2>
@@ -143,21 +117,6 @@
 
         setInterval(updateClock, 1000); // 每秒更新时间
         updateClock(); // 页面加载时先显示一次时间
-
-        // 语言切换
-        function switchLanguage(language) {
-            if (language === 'en') {
-                document.getElementById('siteTitle').textContent = 'Website Under Construction';
-                document.getElementById('siteSubtitle').textContent = 'Website Under Construction';
-                document.querySelector('.btn').textContent = 'Waiting Time';
-                document.getElementById('header').textContent = 'Welcome';
-            } else if (language === 'zh') {
-                document.getElementById('siteTitle').textContent = '网站建设中';
-                document.getElementById('siteSubtitle').textContent = 'Website Under Construction';
-                document.querySelector('.btn').textContent = '等待时间';
-                document.getElementById('header').textContent = 'Welcome';
-            }
-        }
 
         // 鼠标跟随效果
         document.addEventListener('mousemove', (event) => {
