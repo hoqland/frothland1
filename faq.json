@@ -4,41 +4,13 @@
     "question": "网站多久建设好",
     "answer": "每天一点点",
     "category": "General FAQ",
-    "tags": [
-      "计划"
-    ]
+    "tags": ["计划"]
   },
   {
-    "id": "q-docsearch",
-    "question": "How to configure a client-side search for a static site?",
-    "answer": "For small sites, load JSON data and implement a simple includes-based search in the browser. For larger sites, consider Algolia DocSearch or Lunr.js.",
-    "category": "Programming",
-    "tags": [
-      "search",
-      "static",
-      "algolia"
-    ]
-  },
-  {
-    "id": "q-prism",
-    "question": "Highlight your code syntax with Prism.js",
-    "answer": "Include Prism.js and the desired language components, then wrap code blocks with <code>&lt;pre&gt;&lt;code class=\"language-js\"&gt;...&lt;/code&gt;&lt;/pre&gt;</code>.",
-    "category": "Coding",
-    "tags": [
-      "code",
-      "highlight",
-      "prism"
-    ]
-  },
-  {
-    "id": "q-photo",
-    "question": "How to optimise images for the web?",
-    "answer": "Export images in WebP or AVIF when possible, compress aggressively, and serve responsive sizes with the <code>srcset</code> attribute.",
-    "category": "Photography",
-    "tags": [
-      "image",
-      "webp",
-      "performance"
-    ]
+    "id": "q-jump",
+    "question": "测试跳转问题怎么用？",
+    "answer": "在首页搜索“测试跳转”将跳到新页面并显示本条结果。",
+    "category": "General FAQ",
+    "tags": ["跳转","示例"]
   }
 ]

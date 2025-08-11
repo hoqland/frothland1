@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>搜索结果 · Help Center</title>
+  <meta name="description" content="FAQ 搜索结果页">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .wrap { max-width: 980px; margin: 0 auto; padding: 24px; }
+    .back { margin-bottom: 16px; display: inline-block; }
+    .qkw { font-weight: 700; }
+    .result-count { margin: 8px 0 16px; color:#666; }
+    .faq-item { padding:16px; border:1px solid #eee; border-radius:12px; margin:12px 0; }
+    .faq-item h2 { margin:0 0 8px; font-size:20px; }
+    .empty { padding:24px; text-align:center; color:#888; }
+    .searchbar { display:flex; gap:8px; margin:12px 0 20px; }
+    .searchbar input { flex:1; padding:10px 12px; border:1px solid #ddd; border-radius:10px; }
+    .searchbar button { padding:10px 14px; border:1px solid #ddd; border-radius:10px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">← 返回首页</a>
+    <h1>搜索结果</h1>
+    <div class="searchbar">
+      <input id="q" type="search" placeholder="再搜一次…" autocomplete="off">
+      <button id="btnSearch">Search</button>
+    </div>
+    <div id="kw"></div>
+    <div id="count" class="result-count"></div>
+    <div id="list"></div>
+  </div>
+
+  <script>
+    // 读取 URL 参数
+    function getParam(name) {
+      const u = new URL(window.location.href);
+      return u.searchParams.get(name) || '';
+    }
+
+    // 渲染结果
+    function render(items, kw) {
+      const list = document.getElementById('list');
+      const count = document.getElementById('count');
+      const kwBox = document.getElementById('kw');
+      kwBox.innerHTML = '关键词：<span class="qkw">' + (kw || '（空）') + '</span>';
+
+      list.innerHTML = '';
+      if (!items.length) {
+        count.textContent = '未找到相关结果，换个词试试。';
+        list.innerHTML = '<div class="empty">没有匹配的 FAQ。</div>';
+        return;
+      }
+      count.textContent = '共 ' + items.length + ' 条结果';
+      items.forEach(it => {
+        const div = document.createElement('div');
+        div.className = 'faq-item';
+        div.innerHTML = '<h2>' + it.question + '</h2><p>' + it.answer + '</p>';
+        list.appendChild(div);
+      });
+    }
+
+    // 执行搜索（在 search.html 上）
+    async function doSearch(kwRaw) {
+      const kw = (kwRaw || '').toLowerCase();
+      try {
+        const res = await fetch('./faq.json?_t=' + Date.now());
+        const data = await res.json();
+        const matched = data.filter(it => {
+          const text = (it.question + ' ' + it.answer).toLowerCase();
+          return kw ? text.includes(kw) : true;
+        });
+        render(matched, kwRaw);
+      } catch (e) {
+        render([], kwRaw);
+        console.error(e);
+      }
+    }
+
+    // 初始：根据 URL q 参数搜索
+    const initKw = getParam('q');
+    document.getElementById('q').value = initKw;
+    doSearch(initKw);
+
+    // 顶部再次搜索
+    function goSearch() {
+      const v = document.getElementById('q').value.trim();
+      if (v) {
+        // 刷新当前页的 q 参数并重新搜索（避免跳回首页）
+        const u = new URL(window.location.href);
+        u.searchParams.set('q', v);
+        history.replaceState(null, '', u.toString());
+        doSearch(v);
+      }
+    }
+    document.getElementById('btnSearch').addEventListener('click', goSearch);
+    document.getElementById('q').addEventListener('keydown', e => {
+      if (e.key === 'Enter') goSearch();
+    });
+  </script>
+</body>
+</html>

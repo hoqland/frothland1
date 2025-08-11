@@ -110,28 +110,20 @@
   setInterval(updateUKClock, 1000);
   updateUKClock();
 
-  // 通用搜索功能：搜索所有 .faq-item
-  function searchFAQ(keyword) {
-    var faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(function (item) {
-      var text = item.innerText.toLowerCase();
-      if (text.includes(keyword) || keyword === '') {
-        item.style.display = '';
-      } else {
-        item.style.display = 'none';
-      }
-    });
+  
+  // 跳转到新页面的搜索功能
+  function goSearch() {
+    var keyword = document.getElementById('q').value.trim();
+    if (keyword) {
+      window.location.href = 'search.html?q=' + encodeURIComponent(keyword);
+    }
   }
 
-  document.getElementById('btnSearch').addEventListener('click', function () {
-    var keyword = document.getElementById('q').value.trim().toLowerCase();
-    searchFAQ(keyword);
+  document.getElementById('btnSearch').addEventListener('click', goSearch);
+  document.getElementById('q').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') goSearch();
   });
 
-  document.getElementById('q').addEventListener('input', function () {
-    var keyword = this.value.trim().toLowerCase();
-    searchFAQ(keyword);
-  });
   </script>
 
 </body>
