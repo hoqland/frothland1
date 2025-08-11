@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Help Center · FAQ</title>
+  <meta name="description" content="一个轻量的帮助中心/FAQ 模版，带分类侧栏、搜索和本地记忆 LandX。">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="wrap headbar">
+      <div class="brand">
+        <span class="logo">Q</span>
+        <span class="name">Answers</span>
+      </div>
+      <nav class="topnav">
+        <a class="active" href="#">Help Center</a><a href="service.html">网站搭建服务</a>
+        <a href="#" aria-disabled="true">Pages</a>
+        <a href="#" aria-disabled="true">Elements</a>
+      </nav>
+    </div>
+    <div class="wrap hero">
+      <h1>Frequently Asked Questions</h1>
+      <p class="sub">新来的？先在这里搜一搜。我们把常见问题做成了简单的卡片与折叠。</p>
+      <div class="search">
+        <span class="icon">🔎</span>
+        <input id="q" type="search" placeholder="有问题？输入关键词试试…（如：部署 / 主题 / GitHub）" autocomplete="off">
+        <button id="btnSearch">Search</button>
+      </div>
+      <!-- 英国时间大时钟 -->
+      <div id="ukClock" style="font-size:4em; margin-top:20px; font-weight:bold; color:white; text-shadow: 2px 2px 5px rgba(0,0,0,0.7); text-align:center;">
+        --:--:--
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap main">
+    <aside class="sidebar">
+      <div class="s-title">Categories</div>
+      <ul id="cats" class="cats">
+        <!-- 动态填充 -->
+      </ul>
+      
+        <div id="landxList" class="landx-list"></div>
+        <button id="landxClear" class="ghost">清空 LandX</button>
+      </div>
+    </aside>
+
+    <section class="content">
+      <div id="count" class="count">
+        <div class="faq-item">
+          <h2>网站正在建设需要多久时间？</h2>
+          <p>未知</p>
+        </div>
+      </div>
+      <div id="list" class="list">
+        <!-- 动态填充 -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">© 2025 Help Center · 纯静态 · LandX 记忆已开启</div>
+  </footer>
+
+  <div id="landxBtn" class="landx-float">LandX</div>
+  <div id="landxModal" class="landx-modal hidden">
+    <div class="landx-content">
+      <div class="landx-header">
+        <span>LandX 专属记忆</span>
+        <button id="landxClose">×</button>
+      </div>
+      <div class="landx-body">
+        <div class="landx-meta">这里可以添加视频链接、图片链接、文章。数据仅保存在本地。</div>
+        <form id="landxForm">
+          <select id="landxType">
+            <option value="video">视频</option>
+            <option value="image">图片</option>
+            <option value="article">文章</option>
+          </select>
+          <input type="text" id="landxInput" placeholder="输入链接或文字" required>
+          <button type="submit">添加</button>
+        </form>
+        <div id="landxList" class="landx-list"></div>
+        <button id="landxClear">清空全部</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // 页面加载后插入 "1+1=2" FAQ
+  document.addEventListener('DOMContentLoaded', function () {
+    var countDiv = document.getElementById('count');
+    if (countDiv) {
+      var faqItem = document.createElement('div');
+      faqItem.className = 'faq-item';
+      faqItem.innerHTML = '<h2>1+1=2</h2><p>这是一个测试内容，用于验证搜索功能。</p>';
+      countDiv.appendChild(faqItem);
+    }
+  });
+
+  // 英国时间大时钟
+  function updateUKClock() {
+    const now = new Date();
+    const options = { timeZone: 'Europe/London', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    const ukTime = new Intl.DateTimeFormat('en-GB', options).format(now);
+    document.getElementById('ukClock').textContent = ukTime;
+  }
+  setInterval(updateUKClock, 1000);
+  updateUKClock();
+
+  // 通用搜索功能：搜索所有 .faq-item
+  function searchFAQ(keyword) {
+    var faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(function (item) {
+      var text = item.innerText.toLowerCase();
+      if (text.includes(keyword) || keyword === '') {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  document.getElementById('btnSearch').addEventListener('click', function () {
+    var keyword = document.getElementById('q').value.trim().toLowerCase();
+    searchFAQ(keyword);
+  });
+
+  document.getElementById('q').addEventListener('input', function () {
+    var keyword = this.value.trim().toLowerCase();
+    searchFAQ(keyword);
+  });
+  </script>
+
+</body>
+</html>
