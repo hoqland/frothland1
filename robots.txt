@@ -1,3 +1,16 @@
+# 允许所有搜索引擎爬虫
+User-agent: *
+Allow: /
+
+# 专门允许主要搜索引擎
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+
+# 屏蔽不良爬虫
 User-agent: Baiduspider
 Disallow: /
 
@@ -16,6 +29,5 @@ Disallow: /
 User-agent: ToutiaoSpider
 Disallow: /
 
-User-agent: *
-Allow: /
+# 网站地图
 Sitemap: https://frothland.com/sitemap.xml
