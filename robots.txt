@@ -1,0 +1,21 @@
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: Sogou spider
+Disallow: /
+
+User-agent: 360Spider
+Disallow: /
+
+User-agent: YisouSpider
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: ToutiaoSpider
+Disallow: /
+
+User-agent: *
+Allow: /
+Sitemap: https://frothland.com/sitemap.xml
