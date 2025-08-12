@@ -334,6 +334,66 @@
       border-radius: 50%;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
+    }
+
+.cyber-faq-hero {
+    position: relative;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 6s ease infinite;
+    border-radius: 15px;
+    padding: 40px 20px !important;
+    margin: 20px 0;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.cyber-title {
+    font-size: 3rem !important;
+    font-weight: 900 !important;
+    background: linear-gradient(45deg, #fff, #ff6b6b, #4ecdc4, #45b7d1) !important;
+    background-size: 300% 300% !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    animation: rainbow 3s ease-in-out infinite !important;
+    margin-bottom: 15px !important;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.5) !important;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+@keyframes rainbow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.cyber-sub {
+    font-size: 1.3rem !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3) !important;
+    animation: pulse 2s ease-in-out infinite !important;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin: 0 !important;
+    font-weight: 500;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.9; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); }
+}
+
+</style>
   </style>
 </head>
 <body>
@@ -363,9 +423,10 @@
         <a href="#" aria-disabled="true">Elements</a>
       </nav>
     </div>
-    <div class="wrap hero">
-      <h1>Frequently Asked Questions</h1>
-      <p class="sub">新来的？先在这里搜一搜1+1。</p>
+    <div class="wrap hero cyber-faq-hero">
+    <h1 class="cyber-title">Frequently Asked Questions</h1>
+    <p class="cyber-sub">🚀 新来的? 先在这里搜一搜1+1。探索数字宇宙的奥秘！ ✨</p>
+</div>
       <div class="search">
         <span class="icon">🔎</span>
         <input id="q" type="search" placeholder="有问题？输入关键词试试…（如：部署 / 主题 / GitHub）" autocomplete="off">
@@ -727,7 +788,24 @@
 
   // 每3秒生成一个新泡泡
   setInterval(createBubble, 1000);
-
+// 添加FAQ炫酷效果
+document.addEventListener('DOMContentLoaded', function() {
+    const heroSection = document.querySelector('.cyber-faq-hero');
+    if (heroSection) {
+        const scanLine = document.createElement('div');
+        scanLine.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: scan 4s ease-in-out infinite;
+            z-index: 3;
+        `;
+        heroSection.appendChild(scanLine);
+    }
+});
   </script>
 
 </body>
