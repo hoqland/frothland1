@@ -5,451 +5,290 @@
 <title>CYBER HOME</title>
 <style>
   body {
-    font-family: Arial, sans-serif;
+    font-family: 'Comic Sans MS', 'Segoe UI', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #0a0e27, #1a1f3a);
+    background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
   }
 
-  /* Background grid effect */
-  body::before {
+  /* 手绘云朵背景 */
+  .cloud {
+    position: absolute;
+    background: white;
+    border-radius: 100px;
+    opacity: 0.7;
+  }
+
+  .cloud::before {
     content: '';
     position: absolute;
-    width: 200%;
-    height: 200%;
-    background-image: 
-      linear-gradient(rgba(79, 172, 254, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(79, 172, 254, 0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: gridMove 20s linear infinite;
+    background: white;
+    border-radius: 100px;
   }
 
-  @keyframes gridMove {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
-  }
-
-  .particles {
+  .cloud::after {
+    content: '';
     position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
+    background: white;
+    border-radius: 100px;
   }
 
-  .particle {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: #00f2fe;
-    border-radius: 50%;
-    animation: float 4s infinite linear;
-    box-shadow: 0 0 10px #00f2fe;
+  .cloud1 {
+    width: 100px;
+    height: 40px;
+    top: 20%;
+    left: 10%;
   }
 
-  @keyframes float {
-    0% {
-      transform: translateY(100vh) translateX(0);
-      opacity: 0;
-    }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% {
-      transform: translateY(-100vh) translateX(100px);
-      opacity: 0;
-    }
+  .cloud1::before {
+    width: 50px;
+    height: 50px;
+    top: -25px;
+    left: 10px;
   }
 
-  /* Main container with multiple animated pseudo-elements */
-  .container {
-    text-align: center;
-    background: rgba(20, 25, 45, 0.95);
-    padding: 60px 40px;
-    border-radius: 30px;
-    backdrop-filter: blur(20px);
-    z-index: 10;
-    position: relative;
-    animation: mainMorph 12s ease-in-out infinite;
-    border: 2px solid rgba(79, 172, 254, 0.3);
+  .cloud1::after {
+    width: 60px;
+    height: 40px;
+    top: -20px;
+    right: 10px;
   }
 
-  @keyframes mainMorph {
-    0%, 100% {
-      transform: scale(1) rotate(0deg);
-      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    }
-    25% {
-      transform: scale(1.05) rotate(2deg);
-      border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-    }
-    50% {
-      transform: scale(0.95) rotate(-2deg);
-      border-radius: 70% 30% 50% 50% / 30% 70% 30% 70%;
-    }
-    75% {
-      transform: scale(1.02) rotate(1deg);
-      border-radius: 40% 60% 30% 70% / 40% 70% 30% 60%;
-    }
-  }
-
-  /* Multiple morphing frames */
-  .morph-frame {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    border-radius: inherit;
-  }
-
-  .morph-frame-1 {
-    border: 2px solid rgba(102, 126, 234, 0.6);
-    animation: frame1Morph 15s ease-in-out infinite;
-  }
-
-  @keyframes frame1Morph {
-    0%, 100% {
-      transform: translate(-50%, -50%) scale(1.1) rotate(0deg);
-      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-      opacity: 0.8;
-    }
-    25% {
-      transform: translate(-45%, -55%) scale(1.2) rotate(45deg);
-      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-      opacity: 0.4;
-    }
-    50% {
-      transform: translate(-55%, -45%) scale(1.3) rotate(90deg);
-      border-radius: 70% 30% 50% 50% / 30% 70% 30% 70%;
-      opacity: 0.6;
-    }
-    75% {
-      transform: translate(-50%, -50%) scale(1.15) rotate(180deg);
-      border-radius: 40% 60% 30% 70% / 40% 70% 30% 60%;
-      opacity: 0.3;
-    }
-  }
-
-  .morph-frame-2 {
-    border: 2px solid rgba(240, 147, 251, 0.5);
-    animation: frame2Morph 18s ease-in-out infinite reverse;
-  }
-
-  @keyframes frame2Morph {
-    0%, 100% {
-      transform: translate(-50%, -50%) scale(1.2) rotate(0deg);
-      border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-      opacity: 0.5;
-    }
-    33% {
-      transform: translate(-55%, -50%) scale(1.4) rotate(-60deg);
-      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-      opacity: 0.7;
-    }
-    66% {
-      transform: translate(-45%, -50%) scale(1.1) rotate(-120deg);
-      border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
-      opacity: 0.4;
-    }
-  }
-
-  .morph-frame-3 {
-    border: 2px solid rgba(79, 172, 254, 0.4);
-    animation: frame3Morph 20s ease-in-out infinite;
-  }
-
-  @keyframes frame3Morph {
-    0%, 100% {
-      transform: translate(-50%, -50%) scale(1.5) rotate(0deg);
-      border-radius: 20% 80% 80% 20% / 20% 20% 80% 80%;
-      opacity: 0.3;
-    }
-    50% {
-      transform: translate(-50%, -50%) scale(0.9) rotate(360deg);
-      border-radius: 80% 20% 20% 80% / 80% 80% 20% 20%;
-      opacity: 0.6;
-    }
-  }
-
-  /* Splitting frames effect */
-  .split-frame {
-    position: absolute;
-    border: 2px solid rgba(0, 242, 254, 0.5);
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
-  .split-1 {
+  .cloud2 {
     width: 80px;
-    height: 80px;
-    top: -40px;
-    left: -40px;
-    animation: split1Move 10s ease-in-out infinite;
+    height: 35px;
+    top: 40%;
+    right: 15%;
   }
 
-  @keyframes split1Move {
-    0%, 100% {
-      transform: translate(0, 0) scale(1);
-      opacity: 0;
-    }
-    20% {
-      transform: translate(100px, 100px) scale(1.5);
-      opacity: 0.8;
-    }
-    40% {
-      transform: translate(200px, 50px) scale(1);
-      opacity: 0.5;
-    }
-    60% {
-      transform: translate(150px, 150px) scale(0.8);
-      opacity: 0.3;
-    }
-    80% {
-      transform: translate(50px, 100px) scale(1.2);
-      opacity: 0.1;
-    }
+  .cloud2::before {
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    left: 15px;
   }
 
-  .split-2 {
+  .cloud2::after {
+    width: 50px;
+    height: 35px;
+    top: -15px;
+    right: 15px;
+  }
+
+  .cloud3 {
+    width: 120px;
+    height: 45px;
+    bottom: 30%;
+    left: 20%;
+  }
+
+  .cloud3::before {
     width: 60px;
     height: 60px;
-    bottom: -30px;
-    right: -30px;
-    animation: split2Move 12s ease-in-out infinite;
+    top: -30px;
+    left: 20px;
   }
 
-  @keyframes split2Move {
-    0%, 100% {
-      transform: translate(0, 0) scale(1) rotate(0deg);
-      opacity: 0;
-    }
-    25% {
-      transform: translate(-150px, -100px) scale(2) rotate(90deg);
-      opacity: 0.7;
-    }
-    50% {
-      transform: translate(-100px, -200px) scale(1.5) rotate(180deg);
-      opacity: 0.4;
-    }
-    75% {
-      transform: translate(-50px, -50px) scale(1) rotate(270deg);
-      opacity: 0.2;
-    }
+  .cloud3::after {
+    width: 70px;
+    height: 45px;
+    top: -25px;
+    right: 20px;
   }
 
-  .split-3 {
-    width: 100px;
-    height: 100px;
-    top: 50%;
-    right: -50px;
-    animation: split3Move 15s ease-in-out infinite;
+  .container {
+    text-align: center;
+    background: #ffffff;
+    padding: 60px 50px;
+    border-radius: 30px;
+    box-shadow: 
+      3px 3px 0 #333,
+      6px 6px 0 rgba(51, 51, 51, 0.2);
+    border: 3px solid #333;
+    position: relative;
+    transform: rotate(-0.5deg);
   }
 
-  @keyframes split3Move {
-    0%, 100% {
-      transform: translateY(-50%) translateX(0) scale(0.5);
-      opacity: 0;
-      border-radius: 50%;
-    }
-    30% {
-      transform: translateY(-50%) translateX(-200px) scale(1.5);
-      opacity: 0.6;
-      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    }
-    60% {
-      transform: translateY(-100%) translateX(-100px) scale(1);
-      opacity: 0.3;
-      border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-    }
-  }
-
-  /* Gradient overlay */
+  /* 手绘风格装饰 */
   .container::before {
     content: '';
     position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    background: linear-gradient(45deg, 
-      #667eea, #764ba2, #f093fb, #f5576c, 
-      #4facfe, #00f2fe, #43e97b, #38f9d7);
-    background-size: 400% 400%;
-    border-radius: inherit;
-    z-index: -1;
-    opacity: 0.7;
-    animation: gradientRotate 10s ease infinite;
-  }
-
-  @keyframes gradientRotate {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .container-inner {
-    position: relative;
-    z-index: 2;
-    color: white;
+    top: -15px;
+    left: 20px;
+    width: 30px;
+    height: 30px;
+    background: #FFD700;
+    border-radius: 50%;
+    border: 2px solid #333;
+    box-shadow: 
+      15px 10px 0 #FF69B4,
+      30px -5px 0 #98FB98;
   }
 
   .category {
     display: inline-block;
     padding: 18px 35px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    border-radius: 30px;
+    background: #FFE4B5;
+    color: #333;
+    border-radius: 50px 45px 50px 45px;
     font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 35px;
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 rgba(51, 51, 51, 0.3);
+    position: relative;
+    transform: rotate(1deg);
+    font-family: 'Comic Sans MS', cursive;
+  }
+
+  /* 手绘星星装饰 */
+  .star {
+    position: absolute;
+    color: #FFD700;
     font-size: 20px;
-    margin-bottom: 30px;
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-    position: relative;
-    animation: pulse 2s ease-in-out infinite;
   }
 
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+  .star1 {
+    top: -10px;
+    right: -10px;
+    transform: rotate(15deg);
   }
 
-  .cyber-icon {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-    position: relative;
-    vertical-align: middle;
-  }
-
-  .cyber-icon::before {
-    content: '';
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border: 2px solid #00f2fe;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 15px #00f2fe;
-    animation: iconPulse 1.5s ease-in-out infinite;
-  }
-
-  @keyframes iconPulse {
-    0%, 100% { box-shadow: 0 0 15px #00f2fe; }
-    50% { box-shadow: 0 0 25px #00f2fe, 0 0 35px #00f2fe; }
-  }
-
-  .cyber-icon::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border: 1px solid #4facfe;
-    border-radius: 4px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-    animation: iconRotate 3s linear infinite;
-  }
-
-  @keyframes iconRotate {
-    0% { transform: translate(-50%, -50%) rotate(45deg); }
-    100% { transform: translate(-50%, -50%) rotate(405deg); }
+  .star2 {
+    bottom: -10px;
+    left: -10px;
+    transform: rotate(-20deg);
+    font-size: 16px;
   }
 
   .btn {
     display: inline-block;
-    margin: 0 10px;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
-    color: white;
+    margin: 10px;
+    padding: 14px 28px;
+    background: #87CEEB;
+    color: #333;
     text-decoration: none;
-    border-radius: 25px;
+    border-radius: 25px 30px 25px 30px;
     cursor: pointer;
-    font-weight: 500;
-    font-size: 15px;
-    border: none;
-    box-shadow: 0 8px 20px rgba(79, 172, 254, 0.3);
-    transition: all 0.3s ease;
-    min-width: 70px;
+    font-weight: bold;
+    font-size: 16px;
+    border: 3px solid #333;
+    transition: all 0.2s ease;
+    min-width: 130px;
     text-align: center;
     position: relative;
-    overflow: hidden;
+    box-shadow: 3px 3px 0 rgba(51, 51, 51, 0.3);
+    transform: rotate(-1deg);
+    font-family: 'Comic Sans MS', cursive;
   }
 
-  .btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+  .btn:nth-child(2) {
+    background: #FFB6C1;
+    transform: rotate(1deg);
   }
 
-  .btn:hover::before {
-    width: 300px;
-    height: 300px;
+  .btn:nth-child(3) {
+    background: #98FB98;
+    transform: rotate(-0.5deg);
   }
 
   .btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 15px 30px rgba(79, 172, 254, 0.5);
+    transform: translateY(-3px) rotate(0deg);
+    box-shadow: 5px 5px 0 rgba(51, 51, 51, 0.3);
+  }
+
+  .btn::after {
+    content: '✨';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all 0.3s;
+  }
+
+  .btn:hover::after {
+    opacity: 1;
+    right: -25px;
   }
 
   .days-counter {
-    margin-top: 25px;
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    font-size: 14px;
-    color: #00f2fe;
-    border: 1px solid rgba(0, 242, 254, 0.3);
-    backdrop-filter: blur(10px);
+    margin-top: 30px;
+    padding: 14px 24px;
+    background: #FFFACD;
+    border-radius: 20px 25px 20px 25px;
+    font-size: 15px;
+    color: #333;
+    border: 2px solid #333;
+    box-shadow: 2px 2px 0 rgba(51, 51, 51, 0.2);
+    transform: rotate(0.5deg);
+    display: inline-block;
+    font-family: 'Comic Sans MS', cursive;
+    position: relative;
   }
 
-  /* Energy orbs */
-  .energy-orbs {
+  .days-counter::before {
+    content: '🌟';
     position: absolute;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
   }
 
-  .orb {
+  .days-counter::after {
+    content: '🌟';
     position: absolute;
+    right: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+  }
+
+  /* 手绘太阳 */
+  .sun {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    width: 80px;
+    height: 80px;
+    background: #FFD700;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(79, 172, 254, 0.8), transparent);
-    animation: orbFloat 20s infinite ease-in-out;
-    filter: blur(2px);
+    border: 3px solid #333;
+    box-shadow: 0 0 0 10px rgba(255, 215, 0, 0.3);
   }
 
-  @keyframes orbFloat {
-    0%, 100% {
-      transform: translate(0, 0) scale(1);
-    }
-    25% {
-      transform: translate(100px, -50px) scale(1.2);
-    }
-    50% {
-      transform: translate(-50px, -100px) scale(0.8);
-    }
-    75% {
-      transform: translate(-100px, 50px) scale(1.1);
-    }
+  .sun::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 15px;
+    background: #333;
+    box-shadow: 
+      0 95px 0 #333,
+      -35px 10px 0 #333,
+      35px 10px 0 #333,
+      -35px 65px 0 #333,
+      35px 65px 0 #333,
+      -25px 37px 0 #333,
+      25px 37px 0 #333;
+  }
+
+  /* 手绘小鸟 */
+  .bird {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    font-size: 30px;
+    transform: rotate(-10deg);
   }
 </style>
 <script>
@@ -468,103 +307,36 @@ function updateDaysCounter() {
   const timeDiff = today - birthDate;
   const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
   
-  document.getElementById("daysCounter").textContent = `网站已运行 ${daysDiff} 天`;
+  document.getElementById("daysCounter").textContent = `🎨 网站已运行 ${daysDiff} 天 🎨`;
 }
 
 window.onload = function() {
   updateDaysCounter();
-  createParticles();
-  createEnergyOrbs();
-  createDynamicFrames();
-}
-
-function createParticles() {
-  const particlesContainer = document.querySelector('.particles');
-  const particleCount = 50;
-  
-  for (let i = 0; i < particleCount; i++) {
-    setTimeout(() => createParticle(), i * 100);
-  }
-  
-  function createParticle() {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.animationDelay = Math.random() * 4 + 's';
-    particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-    
-    // Random colors for particles
-    const colors = ['#00f2fe', '#4facfe', '#667eea', '#f093fb'];
-    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-    
-    particlesContainer.appendChild(particle);
-    
-    particle.addEventListener('animationend', () => {
-      particle.remove();
-      createParticle();
-    });
-  }
-}
-
-function createEnergyOrbs() {
-  const container = document.querySelector('.container');
-  const orbContainer = document.createElement('div');
-  orbContainer.className = 'energy-orbs';
-  container.appendChild(orbContainer);
-  
-  for (let i = 0; i < 8; i++) {
-    const orb = document.createElement('div');
-    orb.className = 'orb';
-    const size = Math.random() * 80 + 30;
-    orb.style.width = size + 'px';
-    orb.style.height = size + 'px';
-    orb.style.left = Math.random() * 100 + '%';
-    orb.style.top = Math.random() * 100 + '%';
-    orb.style.animationDelay = i * 2.5 + 's';
-    orb.style.opacity = Math.random() * 0.4 + 0.1;
-    
-    // Random gradient colors for orbs
-    const colors = [
-      'rgba(79, 172, 254, 0.8)',
-      'rgba(102, 126, 234, 0.8)',
-      'rgba(240, 147, 251, 0.8)',
-      'rgba(0, 242, 254, 0.8)'
-    ];
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    orb.style.background = `radial-gradient(circle, ${color}, transparent)`;
-    
-    orbContainer.appendChild(orb);
-  }
-}
-
-function createDynamicFrames() {
-  const container = document.querySelector('.container');
-  
-  // Add morphing frames
-  for (let i = 1; i <= 3; i++) {
-    const frame = document.createElement('div');
-    frame.className = `morph-frame morph-frame-${i}`;
-    container.appendChild(frame);
-  }
-  
-  // Add splitting frames
-  for (let i = 1; i <= 3; i++) {
-    const split = document.createElement('div');
-    split.className = `split-frame split-${i}`;
-    container.appendChild(split);
-  }
 }
 </script>
 </head>
 <body>
-  <div class="particles"></div>
+  <!-- 云朵装饰 -->
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
+  <div class="cloud cloud3"></div>
+  
+  <!-- 太阳装饰 -->
+  <div class="sun"></div>
+  
+  <!-- 小鸟装饰 -->
+  <div class="bird">🕊️</div>
+  
   <div class="container">
-    <div class="container-inner">
-      <div class="category"><span class="cyber-icon"></span>CYBER HOME</div><br>
-      <a class="btn" href="10.html">Cyber知识库</a>
-      <div class="btn" onclick="checkPassword()">私人回忆录</div>
-      <div class="days-counter" id="daysCounter">网站已运行 0 天</div>
-    </div>
+    <span class="star star1">✦</span>
+    <span class="star star2">✦</span>
+    
+    <div class="category">🏠 CYBER HOME 🏠</div><br>
+    
+    <a class="btn" href="10.html">📚 Cyber知识库</a>
+    <div class="btn" onclick="checkPassword()">💭 私人回忆录</div>
+    
+    <div class="days-counter" id="daysCounter">网站已运行 0 天</div>
   </div>
 </body>
 </html>
