@@ -90,7 +90,7 @@
                 console.log('开始加载留言...');
                 const response = await fetch(API_URL + '/latest', {
                     headers: {
-                        'X-Access-Key': API_KEY
+                        'X-Master-Key': API_KEY
                     }
                 });
                 
@@ -129,7 +129,7 @@
                 // 先获取现有留言
                 const getResponse = await fetch(API_URL + '/latest', {
                     headers: {
-                        'X-Access-Key': API_KEY
+                        'X-Master-Key': API_KEY
                     }
                 });
                 const data = await getResponse.json();
