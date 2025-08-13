@@ -3,9 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>CYBER HOME</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap" rel="stylesheet">
 <style>
   body {
-    font-family: 'Comic Sans MS', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Gochi Hand', cursive, sans-serif;
     margin: 0;
     padding: 0;
     background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
@@ -14,243 +17,60 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    overflow: hidden; /* Hide clouds that drift off-screen */
   }
 
-  /* 手绘云朵背景 */
+  /* --- ANIMATIONS --- */
+  @keyframes drift {
+    from { transform: translateX(-20px); }
+    to { transform: translateX(20px); }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 15px rgba(255, 215, 0, 0.1);
+    }
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-10deg); }
+    50% { transform: translateY(-10px) rotate(-12deg); }
+  }
+
+  /* --- DECORATIONS --- */
   .cloud {
     position: absolute;
     background: white;
     border-radius: 100px;
-    opacity: 0.7;
+    opacity: 0.8;
+    animation: drift 10s ease-in-out infinite alternate;
+    filter: url(#wobble-filter); /* Wobble effect */
   }
 
-  .cloud::before {
+  .cloud::before, .cloud::after {
     content: '';
     position: absolute;
     background: white;
     border-radius: 100px;
   }
 
-  .cloud::after {
-    content: '';
-    position: absolute;
-    background: white;
-    border-radius: 100px;
-  }
+  .cloud1 { width: 100px; height: 40px; top: 15%; left: 10%; animation-duration: 12s; }
+  .cloud1::before { width: 50px; height: 50px; top: -25px; left: 10px; }
+  .cloud1::after { width: 60px; height: 40px; top: -20px; right: 10px; }
 
-  .cloud1 {
-    width: 100px;
-    height: 40px;
-    top: 20%;
-    left: 10%;
-  }
+  .cloud2 { width: 80px; height: 35px; top: 35%; right: 15%; animation-duration: 9s; animation-delay: -3s; }
+  .cloud2::before { width: 40px; height: 40px; top: -20px; left: 15px; }
+  .cloud2::after { width: 50px; height: 35px; top: -15px; right: 15px; }
 
-  .cloud1::before {
-    width: 50px;
-    height: 50px;
-    top: -25px;
-    left: 10px;
-  }
+  .cloud3 { width: 120px; height: 45px; bottom: 25%; left: 20%; animation-duration: 15s; }
+  .cloud3::before { width: 60px; height: 60px; top: -30px; left: 20px; }
+  .cloud3::after { width: 70px; height: 45px; top: -25px; right: 20px; }
 
-  .cloud1::after {
-    width: 60px;
-    height: 40px;
-    top: -20px;
-    right: 10px;
-  }
-
-  .cloud2 {
-    width: 80px;
-    height: 35px;
-    top: 40%;
-    right: 15%;
-  }
-
-  .cloud2::before {
-    width: 40px;
-    height: 40px;
-    top: -20px;
-    left: 15px;
-  }
-
-  .cloud2::after {
-    width: 50px;
-    height: 35px;
-    top: -15px;
-    right: 15px;
-  }
-
-  .cloud3 {
-    width: 120px;
-    height: 45px;
-    bottom: 30%;
-    left: 20%;
-  }
-
-  .cloud3::before {
-    width: 60px;
-    height: 60px;
-    top: -30px;
-    left: 20px;
-  }
-
-  .cloud3::after {
-    width: 70px;
-    height: 45px;
-    top: -25px;
-    right: 20px;
-  }
-
-  .container {
-    text-align: center;
-    background: #ffffff;
-    padding: 60px 50px;
-    border-radius: 30px;
-    box-shadow: 
-      3px 3px 0 #333,
-      6px 6px 0 rgba(51, 51, 51, 0.2);
-    border: 3px solid #333;
-    position: relative;
-    transform: rotate(-0.5deg);
-  }
-
-  /* 手绘风格装饰 */
-  .container::before {
-    content: '';
-    position: absolute;
-    top: -15px;
-    left: 20px;
-    width: 30px;
-    height: 30px;
-    background: #FFD700;
-    border-radius: 50%;
-    border: 2px solid #333;
-    box-shadow: 
-      15px 10px 0 #FF69B4,
-      30px -5px 0 #98FB98;
-  }
-
-  .category {
-    display: inline-block;
-    padding: 18px 35px;
-    background: #FFE4B5;
-    color: #333;
-    border-radius: 50px 45px 50px 45px;
-    font-weight: bold;
-    font-size: 24px;
-    margin-bottom: 35px;
-    border: 3px solid #333;
-    box-shadow: 4px 4px 0 rgba(51, 51, 51, 0.3);
-    position: relative;
-    transform: rotate(1deg);
-    font-family: 'Comic Sans MS', cursive;
-  }
-
-  /* 手绘星星装饰 */
-  .star {
-    position: absolute;
-    color: #FFD700;
-    font-size: 20px;
-  }
-
-  .star1 {
-    top: -10px;
-    right: -10px;
-    transform: rotate(15deg);
-  }
-
-  .star2 {
-    bottom: -10px;
-    left: -10px;
-    transform: rotate(-20deg);
-    font-size: 16px;
-  }
-
-  .btn {
-    display: inline-block;
-    margin: 10px;
-    padding: 14px 28px;
-    background: #87CEEB;
-    color: #333;
-    text-decoration: none;
-    border-radius: 25px 30px 25px 30px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 16px;
-    border: 3px solid #333;
-    transition: all 0.2s ease;
-    min-width: 130px;
-    text-align: center;
-    position: relative;
-    box-shadow: 3px 3px 0 rgba(51, 51, 51, 0.3);
-    transform: rotate(-1deg);
-    font-family: 'Comic Sans MS', cursive;
-  }
-
-  .btn:nth-child(2) {
-    background: #FFB6C1;
-    transform: rotate(1deg);
-  }
-
-  .btn:nth-child(3) {
-    background: #98FB98;
-    transform: rotate(-0.5deg);
-  }
-
-  .btn:hover {
-    transform: translateY(-3px) rotate(0deg);
-    box-shadow: 5px 5px 0 rgba(51, 51, 51, 0.3);
-  }
-
-  .btn::after {
-    content: '✨';
-    position: absolute;
-    right: -20px;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0;
-    transition: all 0.3s;
-  }
-
-  .btn:hover::after {
-    opacity: 1;
-    right: -25px;
-  }
-
-  .days-counter {
-    margin-top: 30px;
-    padding: 14px 24px;
-    background: #FFFACD;
-    border-radius: 20px 25px 20px 25px;
-    font-size: 15px;
-    color: #333;
-    border: 2px solid #333;
-    box-shadow: 2px 2px 0 rgba(51, 51, 51, 0.2);
-    transform: rotate(0.5deg);
-    display: inline-block;
-    font-family: 'Comic Sans MS', cursive;
-    position: relative;
-  }
-
-  .days-counter::before {
-    content: '🌟';
-    position: absolute;
-    left: -25px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-  }
-
-  .days-counter::after {
-    content: '🌟';
-    position: absolute;
-    right: -25px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-  }
-
-  /* 手绘太阳 */
   .sun {
     position: absolute;
     top: 50px;
@@ -260,35 +80,134 @@
     background: #FFD700;
     border-radius: 50%;
     border: 3px solid #333;
-    box-shadow: 0 0 0 10px rgba(255, 215, 0, 0.3);
+    animation: pulse 5s ease-in-out infinite;
   }
 
+  /* Sun rays using a pseudo-element and box-shadow */
   .sun::before {
     content: '';
     position: absolute;
-    top: -15px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
     width: 3px;
-    height: 15px;
+    height: 105px; /* Ray length */
     background: #333;
-    box-shadow: 
-      0 95px 0 #333,
-      -35px 10px 0 #333,
-      35px 10px 0 #333,
-      -35px 65px 0 #333,
-      35px 65px 0 #333,
-      -25px 37px 0 #333,
-      25px 37px 0 #333;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 0; /* To make it a single line */
   }
 
-  /* 手绘小鸟 */
+  .sun::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 105px;
+    background: #333;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
   .bird {
     position: absolute;
     top: 100px;
     left: 100px;
     font-size: 30px;
-    transform: rotate(-10deg);
+    animation: bob 3s ease-in-out infinite;
+  }
+
+  /* --- MAIN CONTENT --- */
+  .container {
+    text-align: center;
+    background: #ffffff;
+    padding: 50px 40px;
+    border-radius: 30px 25px 35px 20px; /* Irregular radius */
+    box-shadow: 4px 4px 0 #333, 8px 8px 0 rgba(51, 51, 51, 0.2);
+    border: 3px solid #333;
+    position: relative;
+    transform: rotate(-1.5deg);
+    filter: url(#wobble-filter); /* Wobble effect */
+  }
+
+  /* Scribble decorations */
+  .container::before {
+    content: '~~';
+    font-size: 24px;
+    color: #FF69B4;
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    transform: rotate(-15deg);
+  }
+   .container::after {
+    content: '★';
+    font-size: 20px;
+    color: #98FB98;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    transform: rotate(15deg);
+  }
+
+  .category {
+    display: inline-block;
+    padding: 18px 35px;
+    background: #FFE4B5;
+    color: #333;
+    border-radius: 50px 45px 50px 45px;
+    font-weight: bold;
+    font-size: 30px; /* Larger font */
+    margin-bottom: 35px;
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 rgba(51, 51, 51, 0.3);
+    position: relative;
+    transform: rotate(1deg);
+  }
+
+  .btn {
+    display: inline-block;
+    margin: 10px;
+    padding: 15px 30px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 25px 30px 25px 30px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px; /* Larger font */
+    border: 3px solid #333;
+    transition: all 0.15s ease-out;
+    min-width: 140px;
+    text-align: center;
+    position: relative;
+    box-shadow: 3px 3px 0 rgba(51, 51, 51, 0.3);
+    filter: url(#wobble-filter-light); /* Lighter Wobble */
+  }
+
+  .btn-blue { background: #87CEEB; transform: rotate(-1.5deg); }
+  .btn-pink { background: #FFB6C1; transform: rotate(1deg); }
+  .btn-green { background: #98FB98; transform: rotate(-0.5deg); }
+
+  .btn:hover {
+    transform: translateY(-5px) rotate(0deg) scale(1.05);
+    box-shadow: 6px 6px 0 rgba(51, 51, 51, 0.3);
+  }
+  
+  .btn:active {
+    transform: translateY(2px) rotate(0deg) scale(0.98);
+    box-shadow: 2px 2px 0 rgba(51, 51, 51, 0.3);
+  }
+
+  .days-counter {
+    margin-top: 30px;
+    padding: 14px 24px;
+    background: #FFFACD;
+    border-radius: 20px 25px 20px 25px;
+    font-size: 18px;
+    color: #333;
+    border: 2px solid #333;
+    box-shadow: 2px 2px 0 rgba(51, 51, 51, 0.2);
+    transform: rotate(0.5deg);
+    display: inline-block;
+    position: relative;
   }
 </style>
 <script>
@@ -296,7 +215,7 @@ function checkPassword() {
   var pwd = prompt("请输入密码：");
   if (pwd === "130523") {
     window.location.href = "memory.html";
-  } else {
+  } else if (pwd) { // Check if user entered something
     alert("密码错误！");
   }
 }
@@ -304,8 +223,14 @@ function checkPassword() {
 function updateDaysCounter() {
   const birthDate = new Date("2025-08-10");
   const today = new Date();
+  
+  // Set time to 00:00:00 to count full days
+  birthDate.setHours(0,0,0,0);
+  today.setHours(0,0,0,0);
+
   const timeDiff = today - birthDate;
-  const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+  // Use Math.max to prevent negative numbers before the start date
+  const daysDiff = Math.max(0, Math.floor(timeDiff / (1000 * 60 * 60 * 24)));
   
   document.getElementById("daysCounter").textContent = `🎨 网站已运行 ${daysDiff} 天 🎨`;
 }
@@ -316,28 +241,33 @@ window.onload = function() {
 </script>
 </head>
 <body>
-  <!-- 云朵装饰 -->
-  <div class="cloud cloud1"></div>
-  <div class="cloud cloud2"></div>
-  <div class="cloud cloud3"></div>
+
+<svg style="position:absolute; width:0; height:0;">
+  <filter id="wobble-filter">
+    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="1" result="warp" />
+    <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="4" in="SourceGraphic" in2="warp" />
+  </filter>
+  <filter id="wobble-filter-light">
+    <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="warp" />
+    <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="3" in="SourceGraphic" in2="warp" />
+  </filter>
+</svg>
+
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+<div class="sun"></div>
+<div class="bird">🕊️</div>
   
-  <!-- 太阳装饰 -->
-  <div class="sun"></div>
-  
-  <!-- 小鸟装饰 -->
-  <div class="bird">🕊️</div>
-  
-  <div class="container">
-    <span class="star star1">✦</span>
-    <span class="star star2">✦</span>
-    
+<div class="container">
     <div class="category">🏠 CYBER HOME 🏠</div><br>
     
-    <a class="btn" href="10.html">📚 Cyber知识库</a>
-    <div class="btn" onclick="checkPassword()">💭 私人回忆录</div>
-    <a class="btn" href="says.html">📝 留言板</a>
+    <a class="btn btn-blue" href="10.html">📚 Cyber知识库</a>
+    <div class="btn btn-pink" onclick="checkPassword()">💭 私人回忆录</div>
+    <a class="btn btn-green" href="says.html">📝 留言板</a>
     
-    <div class="days-counter" id="daysCounter">网站已运行 0 天</div>
-  </div>
+    <div class="days-counter" id="daysCounter">计算天数中...</div>
+</div>
+
 </body>
 </html>
