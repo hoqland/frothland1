@@ -26,11 +26,23 @@
     color: white;
     text-decoration: none;
     border-radius: 5px;
+    cursor: pointer;
   }
 </style>
+<script>
+function checkPassword() {
+  var pwd = prompt("请输入密码：");
+  if (pwd === "130523") {
+    window.location.href = "memory.html";
+  } else {
+    alert("密码错误！");
+  }
+}
+</script>
 </head>
 <body>
   <div class="category">🧬 Biology</div><br>
   <a class="btn" href="10.html">1.0</a>
+  <div class="btn" onclick="checkPassword()">回忆</div>
 </body>
 </html>
