@@ -150,7 +150,7 @@
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-Access-Key': API_KEY
+                        'X-Master-Key': API_KEY // <-- 这里是修正后的地方
                     },
                     body: JSON.stringify({ messages: updatedMessages })
                 });
@@ -163,7 +163,8 @@
                     alert('发送失败，请重试');
                 }
             } catch (error) {
-                alert('发送失败，请检查网络');
+                console.error('发送失败:', error);
+                alert('发送失败，请检查网络或查看控制台信息');
             } finally {
                 btn.disabled = false;
                 btn.textContent = '发表留言';
@@ -182,12 +183,17 @@
             messageList.innerHTML = messages.map(msg => `
                 <div class="message">
                     <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
-                        <strong>${msg.name}</strong>
-                        <span style="color:#999;font-size:12px;">${msg.time}</span>
+                        <strong>${escapeHTML(msg.name)}</strong>
+                        <span style="color:#999;font-size:12px;">${escapeHTML(msg.time)}</span>
                     </div>
-                    <p style="margin:5px 0;">${msg.message}</p>
+                    <p style="margin:5px 0;">${escapeHTML(msg.message)}</p>
                 </div>
             `).join('');
+        }
+
+        // 增加一个简单的HTML转义函数，防止XSS攻击
+        function escapeHTML(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
         }
     </script>
 </body>
