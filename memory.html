@@ -1,1 +1,29 @@
+# Create the memory.html file with "待开发" text
+memory_html_content = """<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Memory</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 100px;
+    background: linear-gradient(to bottom, #f7f9fc, #ffffff);
+    font-size: 2em;
+    color: #555;
+  }
+</style>
+</head>
+<body>
+  待开发
+</body>
+</html>"""
+
+# Save file
+memory_file_path = '/mnt/data/memory.html'
+with open(memory_file_path, 'w', encoding='utf-8') as f:
+    f.write(memory_html_content)
+
+memory_file_path
 
