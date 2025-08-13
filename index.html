@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Help Center · FAQ</title>
+  <meta name="description" content="A FAQ platform under construction + personal memory LandX.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* èƒŒæ™¯æ³¡æ³¡æ•ˆæžœ - èœ¡ç¬"å°æ–°é£Žæ ¼ */
+    .bubbles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      border-radius: 50%;
+      animation: float-up 15s infinite ease-in-out;
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.05);
+      opacity: 0.3;  /* å¢žåŠ é€æ˜Žåº¦ */
+    }
+    
+    /* èœ¡ç¬"å°æ–°é£Žæ ¼çš„æ˜Žäº®è‰²å½© - é€æ˜Žåº¦æ›´é«˜ */
+    .bubble:nth-child(1) {
+      background: rgba(255, 107, 107, 0.6);  /* å°æ–°çº¢ */
+      border-color: rgba(214, 48, 49, 0.4);
+    }
+    
+    .bubble:nth-child(2) {
+      background: rgba(255, 236, 139, 0.6);  /* å°æ–°é»„ */
+      border-color: rgba(243, 156, 18, 0.4);
+    }
+    
+    .bubble:nth-child(3) {
+      background: rgba(135, 206, 235, 0.6);  /* å¤©ç©ºè" */
+      border-color: rgba(52, 152, 219, 0.4);
+    }
+    
+    .bubble:nth-child(4) {
+      background: rgba(152, 251, 152, 0.6);  /* è–„è·ç»¿ */
+      border-color: rgba(39, 174, 96, 0.4);
+    }
+    
+    .bubble:nth-child(5) {
+      background: rgba(255, 182, 193, 0.6);  /* ç²‰çº¢ */
+      border-color: rgba(233, 30, 99, 0.4);
+    }
+    
+    .bubble:nth-child(6) {
+      background: rgba(255, 165, 0, 0.6);  /* æ©™è‰² */
+      border-color: rgba(230, 126, 34, 0.4);
+    }
+    
+    .bubble:nth-child(7) {
+      background: rgba(221, 160, 221, 0.6);  /* æ¢…å­è‰² */
+      border-color: rgba(155, 89, 182, 0.4);
+    }
+    
+    .bubble:nth-child(8) {
+      background: rgba(240, 230, 140, 0.6);  /* å¡å…¶è‰² */
+      border-color: rgba(241, 196, 15, 0.4);
+    }
+    
+    .bubble:nth-child(9) {
+      background: rgba(255, 105, 180, 0.6);  /* çƒ­ç²‰çº¢ */
+      border-color: rgba(192, 57, 43, 0.4);
+    }
+    
+    .bubble:nth-child(10) {
+      background: rgba(0, 206, 209, 0.6);  /* é'ç»¿è‰² */
+      border-color: rgba(22, 160, 133, 0.4);
+    }
+    
+    /* æ³¡æ³¡ä¸Šçš„é«˜å…‰æ•ˆæžœ - èœ¡ç¬"å°æ–°é£Žæ ¼ */
+    .bubble::before {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 20%;
+      width: 30%;
+      height: 30%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
+      border-radius: 50%;
+    }
+    
+    /* å¯çˆ±çš„æ'‡æ'†åŠ¨ç"» */
+    @keyframes float-up {
+      0% {
+        bottom: -100px;
+        transform: translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.3;
+      }
+      25% {
+        transform: translateX(-30px) rotate(90deg);
+      }
+      50% {
+        transform: translateX(30px) rotate(180deg);
+      }
+      75% {
+        transform: translateX(-20px) rotate(270deg);
+      }
+      90% {
+        opacity: 0.1;
+      }
+      100% {
+        bottom: 100vh;
+        transform: translateX(50px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    .bubble:nth-child(1) { left: 10%; width: 80px; height: 80px; animation-duration: 20s; animation-delay: 0s; }
+    .bubble:nth-child(2) { left: 20%; width: 60px; height: 60px; animation-duration: 18s; animation-delay: 2s; }
+    .bubble:nth-child(3) { left: 35%; width: 100px; height: 100px; animation-duration: 22s; animation-delay: 4s; }
+    .bubble:nth-child(4) { left: 50%; width: 70px; height: 70px; animation-duration: 19s; animation-delay: 1s; }
+    .bubble:nth-child(5) { left: 65%; width: 90px; height: 90px; animation-duration: 21s; animation-delay: 3s; }
+    .bubble:nth-child(6) { left: 75%; width: 65px; height: 65px; animation-duration: 17s; animation-delay: 5s; }
+    .bubble:nth-child(7) { left: 85%; width: 85px; height: 85px; animation-duration: 20s; animation-delay: 2.5s; }
+    .bubble:nth-child(8) { left: 5%; width: 75px; height: 75px; animation-duration: 23s; animation-delay: 1.5s; }
+    .bubble:nth-child(9) { left: 42%; width: 55px; height: 55px; animation-duration: 16s; animation-delay: 3.5s; }
+    .bubble:nth-child(10) { left: 90%; width: 95px; height: 95px; animation-duration: 24s; animation-delay: 0.5s; }
+  </style>
+</head>
+<body>
+  <!-- èƒŒæ™¯æ³¡æ³¡ -->
+  <div class="bubbles-container">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+  </div>
+
+  <header class="header">
+    <div class="wrap headbar">
+      <div class="brand">
+        <span class="logo">F</span>
+        <span class="name">CYBER Antique Shop</span>
+      </div>
+      <nav class="topnav">
+        <a class="active" href="#">Help Center</a><a href="service.html">Website Building</a><a href="animals.html">🐾 Animals</a>
+        <a href="#" aria-disabled="true">Pages</a>
+        <a href="#" aria-disabled="true">Elements</a>
+      </nav>
+    </div>
+    <div class="wrap hero">
+      <h1>Frequently Asked Questions</h1>
+      <p class="sub">New here? Search first.</p>
+      <div class="search">
+        <span class="icon">🔎</span>
+        <input id="q" type="search" placeholder="Have questions? Enter keywords to try... (e.g.: deploy / theme / GitHub)" autocomplete="off">
+        <button id="btnSearch">Search</button>
+      </div>
+      <!-- è‹±å›½æ—¶é—´å¤§æ—¶é'Ÿ -->
+      <div id="ukClock" style="font-size:4em; margin-top:20px; font-weight:bold; color:white; text-shadow: 2px 2px 5px rgba(0,0,0,0.7); text-align:center;">
+        --:--:--
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap main">
+    <aside class="sidebar">
+      <div class="s-title">Categories</div>
+      <ul id="cats" class="cats">
+        <!-- åŠ¨æ€å¡«å…… -->
+
+        <li style="list-style:none; margin:8px 0; padding:10px; border-radius:10px; background:linear-gradient(135deg, #a8edea, #fed6e3); cursor:pointer;" onclick="window.location.href='biology_game_page.html'">
+          🧬 <strong>Biology</strong> <span style="color:#555;">Life Science</span>
+        </li>
+        <li style="list-style:none; margin:8px 0; padding:10px; border-radius:10px; background:linear-gradient(135deg, #f6d365, #fda085);">
+          🌍 <strong>Geography</strong> <span style="color:#555;">World Knowledge</span>
+        </li>
+        <li style="list-style:none; margin:8px 0; padding:10px; border-radius:10px; background:linear-gradient(135deg, #cfd9df, #e2ebf0);">
+          📚 <strong>Life Tips</strong> <span style="color:#555;">Daily Knowledge</span>
+        </li>
+
+      </ul>
+      
+        <div id="landxList" class="landx-list"></div>
+        <button id="landxClear" class="ghost">Clear LandX</button>
+      </div>
+    </aside>
+
+    <section class="content">
+      <div id="count" class="count">
+        <div class="faq-item">
+          <h2>How long does it take to build the website?</h2>
+          <p>Unknown</p>
+        </div>
+        <div style="margin: 20px 0; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; text-align: center;">
+  <a href="#" style="color: white; text-decoration: none; font-size: 18px; font-weight: bold;">🎮 Fun Games</a>
+</div>
+        <div style="margin: 30px 0; padding: 20px; background: #f8f9fa; border-radius: 15px; border-left: 4px solid #667eea;">
+  <h3 style="margin: 0 0 15px 0; color: #333;">🌟 Website Features</h3>
+  <p style="margin: 0; color: #666; line-height: 1.6;">This is a creative help center with unique features like cute animals, music player, LandX memory system and more. We are committed to providing users with interesting and practical experiences.</p>
+</div>
+
+<div style="margin: 30px 0; padding: 20px; background: #e3f2fd; border-radius: 15px; border-left: 4px solid #2196f3;">
+  <h3 style="margin: 0 0 15px 0; color: #333;">📚 User Guide</h3>
+  <p style="margin: 0; color: #666; line-height: 1.6;">Use the search box to quickly find answers, click categories to browse related content, experience interactive games in the animal park, or use the LandX memory function to save your personal content.</p>
+</div>
+
+<div style="margin: 30px 0; padding: 20px; background: #f3e5f5; border-radius: 15px; border-left: 4px solid #9c27b0;">
+  <h3 style="margin: 0 0 15px 0; color: #333;">🎵 Music Experience</h3>
+  <p style="margin: 0; color: #666; line-height: 1.6;">The music player in the bottom right corner can add fun to your browsing experience. Supports playback control, volume adjustment and progress jumping to make learning more enjoyable.</p>
+</div>
+
+<div style="margin: 30px 0; padding: 20px; background: #e8f5e8; border-radius: 15px; border-left: 4px solid #4caf50;">
+  <h3 style="margin: 0 0 15px 0; color: #333;">🚀 Continuous Updates</h3>
+  <p style="margin: 0; color: #666; line-height: 1.6;">We will regularly add new features and content, including more subject categories, interactive games and practical tools. Please follow our GitHub repository for the latest updates.</p>
+</div>
+      </div>
+      <div id="list" class="list">
+        <!-- åŠ¨æ€å¡«å…… -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">© 2025 Help Center · Pure Static · LandX Memory Enabled</div>
+  </footer>
+
+  <div id="landxBtn" class="landx-float">LandX</div>
+  <div id="landxModal" class="landx-modal hidden">
+    <div class="landx-content">
+      <div class="landx-header">
+        <span>LandX Personal Memory</span>
+        <button id="landxClose">×</button>
+      </div>
+      <div class="landx-body">
+        <div class="landx-meta">Here you can add video links, image links, articles. Data is only saved locally.</div>
+        <form id="landxForm">
+          <select id="landxType">
+            <option value="video">Video</option>
+            <option value="image">Image</option>
+            <option value="article">Article</option>
+          </select>
+          <input type="text" id="landxInput" placeholder="Enter link or text" required>
+          <button type="submit">Add</button>
+        </form>
+        <div id="landxList" class="landx-list"></div>
+        <button id="landxClear">Clear All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- éŸ³ä¹æ'­æ"¾å™¨ - å¤–éƒ¨å¼•ç"¨ -->
+  <iframe src="music-player.html" 
+          style="position: fixed; 
+                 bottom: 30px; 
+                 right: 30px; 
+                 width: 350px; 
+                 height: 450px; 
+                 border: none; 
+                 border-radius: 15px; 
+                 background: transparent;
+                 z-index: 1000;"
+          frameborder="0"></iframe>
+
+  <script>
+  // é¡µé¢åŠ è½½åŽæ'å…¥ "1+1=2" FAQ
+  document.addEventListener('DOMContentLoaded', function () {
+    var countDiv = document.getElementById('count');
+    if (countDiv) {
+      var faqItem = document.createElement('div');
+      faqItem.className = 'faq-item';
+      faqItem.innerHTML = '<h2>1+1=2</h2><p>This is test content for verifying the search function.</p>';
+      countDiv.appendChild(faqItem);
+    }
+  });
+
+  // è‹±å›½æ—¶é—´å¤§æ—¶é'Ÿ
+  function updateUKClock() {
+    const now = new Date();
+    const options = { timeZone: 'Europe/London', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    const ukTime = new Intl.DateTimeFormat('en-GB', options).format(now);
+    document.getElementById('ukClock').textContent = ukTime;
+  }
+  setInterval(updateUKClock, 1000);
+  updateUKClock();
+
+  
+  // è·³è½¬åˆ°æ–°é¡µé¢çš„æœç´¢åŠŸèƒ½
+  function goSearch() {
+    var keyword = document.getElementById('q').value.trim();
+    if (keyword) {
+      window.location.href = 'search.html?q=' + encodeURIComponent(keyword);
+    }
+  }
+
+  document.getElementById('btnSearch').addEventListener('click', goSearch);
+  document.getElementById('q').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') goSearch();
+  });
+
+  // 动态生成更多泡泡 - 蜡笔小新风格
+  function createBubble() {
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    
+    // 蜡笔小新风格的颜色数组
+    const shinChanColors = [
+      { bg: 'rgba(255, 107, 107, 0.6)', border: 'rgba(214, 48, 49, 0.4)' },  // 小新红
+      { bg: 'rgba(255, 236, 139, 0.6)', border: 'rgba(243, 156, 18, 0.4)' },  // 小新黄
+      { bg: 'rgba(135, 206, 235, 0.6)', border: 'rgba(52, 152, 219, 0.4)' },  // 天空蓝
+      { bg: 'rgba(152, 251, 152, 0.6)', border: 'rgba(39, 174, 96, 0.4)' },  // 薄荷绿
+      { bg: 'rgba(255, 182, 193, 0.6)', border: 'rgba(233, 30, 99, 0.4)' },  // 粉红
+      { bg: 'rgba(255, 165, 0, 0.6)', border: 'rgba(230, 126, 34, 0.4)' },  // 橙色
+      { bg: 'rgba(221, 160, 221, 0.6)', border: 'rgba(155, 89, 182, 0.4)' },  // 梅子色
+      { bg: 'rgba(240, 230, 140, 0.6)', border: 'rgba(241, 196, 15, 0.4)' },  // 卡其色
+      { bg: 'rgba(255, 105, 180, 0.6)', border: 'rgba(192, 57, 43, 0.4)' },  // 热粉红
+      { bg: 'rgba(0, 206, 209, 0.6)', border: 'rgba(22, 160, 133, 0.4)' }   // 青绿色
+    ];
+    
+    const randomColor = shinChanColors[Math.floor(Math.random() * shinChanColors.length)];
+    
+    bubble.style.left = Math.random() * 100 + '%';
+    bubble.style.width = bubble.style.height = Math.random() * 80 + 60 + 'px';
+    bubble.style.background = randomColor.bg;
+    bubble.style.borderColor = randomColor.border;
+    bubble.style.opacity = '0.3';  // 设置透明度
+    bubble.style.animationDuration = Math.random() * 10 + 15 + 's';
+    bubble.style.animationDelay = Math.random() * 5 + 's';
+    
+    // 添加高光效果
+    const highlight = document.createElement('div');
+    highlight.style.position = 'absolute';
+    highlight.style.top = '15%';
+    highlight.style.left = '20%';
+    highlight.style.width = '30%';
+    highlight.style.height = '30%';
+    highlight.style.background = 'radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent)';
+    highlight.style.borderRadius = '50%';
+    bubble.appendChild(highlight);
+    
+    document.querySelector('.bubbles-container').appendChild(bubble);
+    
+    // 动画结束后移除泡泡
+    setTimeout(() => {
+      bubble.remove();
+    }, 25000);
+  }
+
+  // 每3秒生成一个新泡泡
+  setInterval(createBubble, 1000);
+
+  </script>
+
+</body>
+</html>
