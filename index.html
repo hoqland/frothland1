@@ -1,503 +1,618 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Gather the scattered into one</title>
-
+<meta charset="UTF-8">
+<title>CYBER HOME</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 <style>
-  * { box-sizing: border-box; }
-
-  :root {
-    --brown: #60331f;
-    --brown-soft: #83533a;
-    --gold: #d99b54;
-    --cream: #fff8ec;
-    --card: rgba(255, 255, 255, 0.62);
-  }
-
-  html, body {
+  body {
+    font-family: 'Gochi Hand', cursive, sans-serif;
     margin: 0;
     padding: 0;
-    width: 100%;
+    background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
     min-height: 100vh;
-    font-family: Georgia, "Times New Roman", serif;
-    background:
-      radial-gradient(circle at 50% 4%, rgba(255, 247, 224, 0.98), transparent 34%),
-      radial-gradient(circle at 8% 18%, rgba(255, 224, 184, 0.72), transparent 28%),
-      radial-gradient(circle at 90% 76%, rgba(255, 216, 177, 0.68), transparent 30%),
-      linear-gradient(135deg, #fff7e8 0%, #ffe5ca 48%, #f6c9a8 100%);
-    color: #4b2f22;
-    overflow-x: hidden;
-  }
-
-  body {
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-  }
-
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      radial-gradient(circle, rgba(255,255,255,0.82) 0 2px, transparent 2.5px),
-      radial-gradient(circle, rgba(217,155,84,0.28) 0 1.5px, transparent 2px);
-    background-size: 110px 110px, 160px 160px;
-    background-position: 20px 30px, 70px 80px;
-    opacity: 0.45;
-  }
-
-  .page {
     position: relative;
-    width: min(1220px, 96vw);
-    min-height: 96vh;
-    padding: 18px 18px 14px;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    gap: 10px;
+    overflow: hidden; /* Hide clouds that drift off-screen */
   }
 
-  .top { text-align: center; }
-
-  .main-title {
-    margin: 0;
-    font-size: clamp(32px, 4.7vw, 60px);
-    line-height: 1.02;
-    font-weight: 700;
-    color: var(--brown);
-    letter-spacing: 0.4px;
-    text-shadow: 0 8px 24px rgba(124, 67, 34, 0.10);
+  /* --- ANIMATIONS --- */
+  @keyframes drift {
+    from { transform: translateX(-20px); }
+    to { transform: translateX(20px); }
   }
 
-  .sub-verse {
-    margin-top: 6px;
-    font-size: clamp(14px, 1.45vw, 19px);
-    color: #8a5639;
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 15px rgba(255, 215, 0, 0.1);
+    }
   }
 
-  .language {
-    position: fixed;
-    top: 14px;
-    right: 16px;
-    z-index: 10;
-    font-size: 14px;
-    padding: 8px 14px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.68);
-    border: 1px solid rgba(130,80,40,0.18);
-    backdrop-filter: blur(10px);
-    cursor: pointer;
-    color: #6b351f;
-    box-shadow: 0 10px 24px rgba(120, 70, 35, 0.10);
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-10deg); }
+    50% { transform: translateY(-10px) rotate(-12deg); }
   }
 
-  .hero {
-    position: relative;
-    width: 100%;
-    min-height: 620px;
-    display: grid;
-    grid-template-columns: minmax(360px, 1fr) 210px minmax(360px, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    column-gap: 28px;
-    row-gap: 18px;
-    align-items: center;
-  }
-
-  .cross-wrap {
-    grid-column: 2;
-    grid-row: 1 / 4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .cross-aura {
-    position: relative;
-    width: 230px;
-    height: 430px;
-    border-radius: 999px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: visible;
-    background:
-      radial-gradient(circle, rgba(255,255,255,0.98) 0%, rgba(255,245,220,0.92) 18%, rgba(255,224,163,0.78) 36%, rgba(255,200,110,0.42) 56%, rgba(255,200,110,0.10) 72%, transparent 82%);
-    box-shadow:
-      0 0 110px rgba(255, 188, 82, 0.42),
-      0 0 190px rgba(255, 214, 140, 0.32),
-      inset 0 0 50px rgba(255, 247, 227, 0.28);
-  }
-
-  .cross-aura::before,
-  .cross-aura::after {
-    content: "";
+  /* --- DECORATIONS --- */
+  .cloud {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 220px;
-    height: 220px;
+    background: white;
+    border-radius: 100px;
+    opacity: 0.8;
+    animation: drift 10s ease-in-out infinite alternate;
+    filter: url(#wobble-filter); /* Wobble effect */
+  }
+
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 100px;
+  }
+
+  .cloud1 { width: 100px; height: 40px; top: 15%; left: 10%; animation-duration: 12s; }
+  .cloud1::before { width: 50px; height: 50px; top: -25px; left: 10px; }
+  .cloud1::after { width: 60px; height: 40px; top: -20px; right: 10px; }
+
+  .cloud2 { width: 80px; height: 35px; top: 35%; right: 15%; animation-duration: 9s; animation-delay: -3s; }
+  .cloud2::before { width: 40px; height: 40px; top: -20px; left: 15px; }
+  .cloud2::after { width: 50px; height: 35px; top: -15px; right: 15px; }
+
+  .cloud3 { width: 120px; height: 45px; bottom: 25%; left: 20%; animation-duration: 15s; }
+  .cloud3::before { width: 60px; height: 60px; top: -30px; left: 20px; }
+  .cloud3::after { width: 70px; height: 45px; top: -25px; right: 20px; }
+
+  .sun {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    width: 80px;
+    height: 80px;
+    background: #FFD700;
     border-radius: 50%;
-    transform: translate(-50%, -50%) scale(0.48);
-    background:
-      radial-gradient(circle, rgba(255,252,244,0.78) 0%, rgba(255,221,147,0.46) 30%, rgba(255,198,98,0.22) 50%, rgba(255,198,98,0.06) 68%, rgba(255,198,98,0) 82%);
-    box-shadow:
-      0 0 52px rgba(255, 202, 101, 0.40),
-      0 0 120px rgba(255, 225, 160, 0.34);
-    pointer-events: none;
-    opacity: 0;
-    animation: haloPulse 4.6s ease-out infinite;
+    border: 3px solid #333;
+    animation: pulse 5s ease-in-out infinite;
   }
 
-  .cross-aura::after {
-    animation-delay: 2.4s;
-  }
-
-  .cross {
-    position: relative;
-    z-index: 2;
-    width: 138px;
-    height: 225px;
-    filter:
-      drop-shadow(0 0 20px rgba(255, 234, 189, 0.95))
-      drop-shadow(0 0 34px rgba(255, 196, 93, 0.72))
-      drop-shadow(0 18px 30px rgba(128, 72, 35, 0.24));
-    animation: breathe 4.2s ease-in-out infinite;
-  }
-
-  .cross::before,
-  .cross::after {
-    content: "";
+  /* Sun rays using a pseudo-element and box-shadow */
+  .sun::before {
+    content: '';
     position: absolute;
-    left: 50%;
     top: 50%;
-    background: linear-gradient(180deg, #fffdf6 0%, #ffe8b5 20%, #f0bb73 64%, #ce8a43 100%);
-    border: 2px solid rgba(184, 119, 49, 0.24);
-    border-radius: 20px;
+    left: 50%;
+    width: 3px;
+    height: 105px; /* Ray length */
+    background: #333;
     transform: translate(-50%, -50%);
-    box-shadow:
-      inset 0 0 24px rgba(255,255,255,0.90),
-      0 0 26px rgba(255, 246, 220, 0.95),
-      0 0 56px rgba(255, 198, 90, 0.72),
-      0 0 86px rgba(255, 205, 108, 0.38),
-      0 14px 32px rgba(105, 57, 22, 0.22);
+    box-shadow: 0 0 0 0; /* To make it a single line */
   }
 
-  @keyframes breathe {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-4px) scale(1.025); }
-  }
-
-  @keyframes haloPulse {
-    0% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.38);
-    }
-    16% {
-      opacity: 0.78;
-    }
-    45% {
-      opacity: 0.42;
-    }
-    100% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(2.95);
-    }
-  }
-
-  .cross::before,
-  .cross::after {
-    content: "";
+  .sun::after {
+    content: '';
     position: absolute;
-    left: 50%;
     top: 50%;
-    background: linear-gradient(180deg, #fff9ef, #e0ad70 62%, #c88a48);
-    border: 2px solid rgba(120, 75, 35, 0.18);
-    border-radius: 20px;
-    transform: translate(-50%, -50%);
-    box-shadow:
-      inset 0 0 20px rgba(255,255,255,0.82),
-      0 14px 32px rgba(105, 57, 22, 0.22);
-  }
-
-  .cross::before { width: 56px; height: 225px; }
-  .cross::after { width: 138px; height: 52px; top: 38%; }
-
-  .module {
-    position: relative;
-    isolation: isolate;
-    min-height: 166px;
-    padding: 14px 16px;
-    border-radius: 34px;
-    background:
-      linear-gradient(145deg, rgba(255,255,255,0.76), rgba(255,244,226,0.54));
-    border: 1px solid rgba(137, 84, 45, 0.15);
-    box-shadow:
-      0 20px 46px rgba(139, 83, 43, 0.13),
-      inset 0 1px 0 rgba(255,255,255,0.88);
-    display: grid;
-    grid-template-columns: 118px 1fr;
-    gap: 16px;
-    align-items: center;
-    backdrop-filter: blur(12px);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-    overflow: hidden;
-  }
-
-  .module::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,222,170,0.08));
-    opacity: 0;
-    transition: opacity 0.25s ease;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .module::after {
-    content: "";
-    position: absolute;
     left: 50%;
-    top: 50%;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    transform: translate(-50%, -50%) scale(0.2);
-    background:
-      radial-gradient(circle,
-        rgba(255,255,255,0.82) 0%,
-        rgba(255,244,222,0.54) 18%,
-        rgba(255,213,145,0.30) 36%,
-        rgba(255,213,145,0.12) 52%,
-        rgba(255,213,145,0) 72%);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 0;
+    width: 3px;
+    height: 105px;
+    background: #333;
+    transform: translate(-50%, -50%) rotate(45deg);
   }
 
-  .module:hover {
-    transform: translateY(-5px);
-    border-color: rgba(217, 155, 84, 0.36);
-    box-shadow: 0 26px 58px rgba(139, 83, 43, 0.19);
+  .bird {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    font-size: 30px;
+    animation: bob 3s ease-in-out infinite;
   }
 
-  .module:hover::before {
-    opacity: 1;
-  }
-
-  .module:hover::after {
-    animation: moduleRipple 1s ease-out 1;
-  }
-
-  @keyframes moduleRipple {
-    0% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.25);
-    }
-    14% {
-      opacity: 0.85;
-    }
-    55% {
-      opacity: 0.42;
-    }
-    100% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(18);
-    }
-  }
-
-  .module-image {
-    position: relative;
-    z-index: 1;
-    width: 118px;
-    height: 118px;
-    border-radius: 28px;
-    object-fit: cover;
-    display: block;
-    box-shadow:
-      0 12px 28px rgba(111, 65, 37, 0.17),
-      inset 0 0 0 1px rgba(255,255,255,0.72);
-    border: 3px solid rgba(255,255,255,0.68);
-  }
-
-  .module-copy {
-    position: relative;
-    z-index: 1;
-    min-width: 0;
-  }
-
-  .module h2 {
-    margin: 0;
-    font-size: clamp(19px, 1.75vw, 26px);
-    line-height: 1.12;
-    color: var(--brown);
-  }
-
-  .module p {
-    margin: 8px 0 0;
-    font-size: clamp(13px, 1.05vw, 16px);
-    line-height: 1.35;
-    color: #79503a;
-  }
-
-  .footer {
+  /* --- MAIN CONTENT --- */
+  .container {
     text-align: center;
-    font-size: clamp(14px, 1.35vw, 18px);
-    color: #7d4b31;
-    padding-bottom: 4px;
+    background: #ffffff;
+    padding: 50px 40px;
+    border-radius: 30px 25px 35px 20px; /* Irregular radius */
+    box-shadow: 4px 4px 0 #333, 8px 8px 0 rgba(51, 51, 51, 0.2);
+    border: 3px solid #333;
+    position: relative;
+    transform: rotate(-1.5deg);
+    filter: url(#wobble-filter); /* Wobble effect */
   }
 
-  .soft-glow {
+  /* Scribble decorations */
+  .container::before {
+    content: '~~';
+    font-size: 24px;
+    color: #FF69B4;
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    transform: rotate(-15deg);
+  }
+   .container::after {
+    content: '★';
+    font-size: 20px;
+    color: #98FB98;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    transform: rotate(15deg);
+  }
+
+  .category {
+    display: inline-block;
+    padding: 18px 35px;
+    background: #FFE4B5;
+    color: #333;
+    border-radius: 50px 45px 50px 45px;
+    font-weight: bold;
+    font-size: 30px; /* Larger font */
+    margin-bottom: 35px;
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 rgba(51, 51, 51, 0.3);
+    position: relative;
+    transform: rotate(1deg);
+  }
+
+  .btn {
+    display: inline-block;
+    margin: 10px;
+    padding: 15px 30px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 25px 30px 25px 30px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px; /* Larger font */
+    border: 3px solid #333;
+    transition: all 0.15s ease-out;
+    min-width: 140px;
+    text-align: center;
+    position: relative;
+    box-shadow: 3px 3px 0 rgba(51, 51, 51, 0.3);
+    filter: url(#wobble-filter-light); /* Lighter Wobble */
+  }
+
+  .btn-blue { background: #87CEEB; transform: rotate(-1.5deg); }
+  .btn-pink { background: #FFB6C1; transform: rotate(1deg); }
+  .btn-green { background: #98FB98; transform: rotate(-0.5deg); }
+
+  .btn:hover {
+    transform: translateY(-5px) rotate(0deg) scale(1.05);
+    box-shadow: 6px 6px 0 rgba(51, 51, 51, 0.3);
+  }
+  
+  .btn:active {
+    transform: translateY(2px) rotate(0deg) scale(0.98);
+    box-shadow: 2px 2px 0 rgba(51, 51, 51, 0.3);
+  }
+
+  .days-counter {
+    margin-top: 30px;
+    padding: 14px 24px;
+    background: #FFFACD;
+    border-radius: 20px 25px 20px 25px;
+    font-size: 18px;
+    color: #333;
+    border: 2px solid #333;
+    box-shadow: 2px 2px 0 rgba(51, 51, 51, 0.2);
+    transform: rotate(0.5deg);
+    display: inline-block;
+    position: relative;
+  }
+
+  /* --- MUSIC PLAYER --- */
+  .music-player {
     position: fixed;
-    inset: auto auto 3% 5%;
-    width: 190px;
-    height: 190px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.24);
-    filter: blur(28px);
-    pointer-events: none;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px 15px 25px 18px;
+    padding: 15px 20px;
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 rgba(51, 51, 51, 0.3);
+    z-index: 999; /* 降低z-index，确保不会覆盖聊天机器人 */
+    transform: rotate(-2deg);
+    min-width: 200px;
   }
 
-  @media (max-height: 790px) {
-    .page { padding-top: 12px; }
-    .hero { min-height: 550px; row-gap: 12px; }
-    .module {
-      min-height: 140px;
-      grid-template-columns: 96px 1fr;
-      gap: 13px;
-      padding: 12px 14px;
-      border-radius: 28px;
-    }
-    .module-image {
-      width: 96px;
-      height: 96px;
-      border-radius: 24px;
-    }
-    .cross-aura { width: 185px; height: 340px; }
-    .cross { width: 120px; height: 195px; }
-    .cross::before { width: 50px; height: 195px; }
-    .cross::after { width: 120px; height: 46px; }
+  .music-player-title {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
   }
 
-  @media (max-width: 950px) {
-    body { align-items: flex-start; }
-    .page { min-height: auto; padding-top: 62px; }
-    .hero {
-      min-height: auto;
-      grid-template-columns: 1fr;
-      grid-template-rows: auto;
-      gap: 18px;
-    }
-    .cross-wrap {
-      grid-column: 1;
-      grid-row: auto;
-      order: -1;
-      padding: 4px 0;
-    }
-    .cross-aura { width: 205px; height: 265px; }
-    .module { min-height: 142px; }
+  .music-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
   }
 
-  @media (max-width: 560px) {
-    .module {
-      grid-template-columns: 86px 1fr;
-      border-radius: 26px;
-      padding: 12px;
-    }
-    .module-image {
-      width: 86px;
-      height: 86px;
-      border-radius: 22px;
-    }
+  .music-btn {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: 2px solid #333;
+    padding: 8px 15px;
+    border-radius: 15px 12px 15px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Gochi Hand', cursive;
+    transition: all 0.2s;
+  }
+
+  .music-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  }
+
+  .music-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .music-progress {
+    flex-grow: 1;
+    height: 6px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid #333;
+  }
+
+  .music-progress-bar {
+    height: 100%;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    width: 0%;
+    transition: width 0.1s;
+  }
+
+  .music-icon {
+    display: inline-block;
+    margin-right: 5px;
   }
 </style>
 </head>
-
 <body>
-  <button class="language" onclick="toggleLanguage()" id="langBtn">中文 / English</button>
-  <div class="soft-glow"></div>
 
-  <main class="page">
-    <header class="top">
-      <h1 class="main-title" data-zh="把失散的聚集起来" data-en="Gather the scattered into one">Gather the scattered into one</h1>
-      <div class="sub-verse" data-zh="He will gather together the scattered children of God." data-en="He will gather together the scattered children of God.">He will gather together the scattered children of God.</div>
-    </header>
+<svg style="position:absolute; width:0; height:0;">
+  <filter id="wobble-filter">
+    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="1" result="warp" />
+    <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="4" in="SourceGraphic" in2="warp" />
+  </filter>
+  <filter id="wobble-filter-light">
+    <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="warp" />
+    <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="3" in="SourceGraphic" in2="warp" />
+  </filter>
+</svg>
 
-    <section class="hero">
-      <div class="module">
-        <img class="module-image" src="assets/module-1.jpg" alt="Calling Christians around the world" />
-        <div class="module-copy">
-          <h2 data-zh="召唤全球基督徒" data-en="Calling Christians around the world">Calling Christians around the world</h2>
-          <p data-zh="连接远方的弟兄姊妹" data-en="Connecting brothers and sisters from afar">Connecting brothers and sisters from afar</p>
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+<div class="sun"></div>
+<div class="bird">🕊️</div>
+  
+<div class="container">
+    <div class="category">🏠 CYBER HOME 🏠-专业知识服务提供+私人知识库</div><br>
+    
+    <a class="btn btn-blue" href="10.html">📚 Cyber知识库</a>
+    <div class="btn btn-pink" onclick="checkPassword()">👭 私人回忆录</div>
+    <a class="btn btn-green" href="says.html">📝 留言板</a>
+    
+    <div class="days-counter" id="daysCounter">计算天数中...</div>
+</div>
+
+<!-- Music Player -->
+<div class="music-player">
+    <div class="music-player-title">
+        <span class="music-icon">🎵</span>巴赫风格钢琴曲
+    </div>
+    <div class="music-controls">
+        <button class="music-btn" id="musicPlayBtn">播放</button>
+        <button class="music-btn" id="musicStopBtn" disabled>停止</button>
+        <div class="music-progress">
+            <div class="music-progress-bar" id="musicProgressBar"></div>
         </div>
-      </div>
-
-      <div class="cross-wrap">
-        <div class="cross-aura"><div class="cross"></div></div>
-      </div>
-
-      <div class="module">
-        <img class="module-image" src="assets/module-2.jpg" alt="Rebuilding beautiful fellowship" />
-        <div class="module-copy">
-          <h2 data-zh="重建美好的肢体情谊" data-en="Rebuilding beautiful fellowship">Rebuilding beautiful fellowship</h2>
-          <p data-zh="让彼此重新相遇、同行、扶持" data-en="Meeting, walking, and supporting one another again">Meeting, walking, and supporting one another again</p>
-        </div>
-      </div>
-
-      <div class="module">
-        <img class="module-image" src="assets/module-3.jpg" alt="Encouragement from afar" />
-        <div class="module-copy">
-          <h2 data-zh="远方的鼓励和陪伴" data-en="Encouragement from afar">Encouragement from afar</h2>
-          <p data-zh="在孤单时收到温暖的回应" data-en="Warm responses in lonely moments">Warm responses in lonely moments</p>
-        </div>
-      </div>
-
-      <div class="module">
-        <img class="module-image" src="assets/module-4.jpg" alt="Online worship groups anytime" />
-        <div class="module-copy">
-          <h2 data-zh="随时的线上聚会敬拜小组" data-en="Online worship groups anytime">Online worship groups anytime</h2>
-          <p data-zh="不受距离限制，一起敬拜" data-en="Worship together beyond distance">Worship together beyond distance</p>
-        </div>
-      </div>
-
-      <div class="module">
-        <img class="module-image" src="assets/module-5.jpg" alt="Prayer groups anytime" />
-        <div class="module-copy">
-          <h2 data-zh="随时的祷告小组" data-en="Prayer groups anytime">Prayer groups anytime</h2>
-          <p data-zh="需要时可以一起祷告" data-en="Pray together whenever needed">Pray together whenever needed</p>
-        </div>
-      </div>
-
-      <div class="module">
-        <img class="module-image" src="assets/module-6.jpg" alt="24-hour volunteer hotline" />
-        <div class="module-copy">
-          <h2 data-zh="24小时志愿者 Hotline" data-en="24-hour volunteer hotline">24-hour volunteer hotline</h2>
-          <p data-zh="有人愿意听你说话" data-en="Someone willing to listen">Someone willing to listen</p>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer" data-zh="“He will gather together the scattered children of God.”" data-en="“He will gather together the scattered children of God.”">“He will gather together the scattered children of God.”</footer>
-  </main>
+    </div>
+</div>
+   
+<!-- Botpress Chatbot - 右下角AI对话机器人 -->
+<script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js" defer></script>
+<script src="https://files.bpcontent.cloud/2025/08/13/15/20250813151410-RKKZZC8P.js" defer></script>
+<script>
+  // 配置聊天机器人位置和样式（可选）
+  window.botpressWebChat = {
+    // 确保机器人在右下角
+    containerWidth: "100%25",
+    layoutWidth: "100%25",
+    hideWidget: false,
+    disableAnimations: false,
+    closeOnEscape: true,
+    showPoweredBy: false,
+    // 自定义样式
+    stylesheet: "https://webchat-styler-css.botpress.app/prod/code/bf5c3001-9361-4a3a-9c0f-c5494abb8b1f/v39826/style.css",
+    // 位置设置
+    useSessionStorage: true,
+    enableTranscriptDownload: false,
+  };
+</script>
 
 <script>
-  let currentLang = "en";
+// Original functions
+function checkPassword() {
+  var pwd = prompt("请输入密码：");
+  if (pwd === "130523") {
+    window.location.href = "memory.html";
+  } else if (pwd) { // Check if user entered something
+    alert("密码错误！");
+  }
+}
 
-  function toggleLanguage() {
-    currentLang = currentLang === "en" ? "zh" : "en";
+function updateDaysCounter() {
+  const birthDate = new Date("2025-08-10");
+  const today = new Date();
+  
+  // Set time to 00:00:00 to count full days
+  birthDate.setHours(0,0,0,0);
+  today.setHours(0,0,0,0);
 
-    document.querySelectorAll("[data-en][data-zh]").forEach(function(el) {
-      el.textContent = el.getAttribute("data-" + currentLang);
+  const timeDiff = today - birthDate;
+  // Use Math.max to prevent negative numbers before the start date
+  const daysDiff = Math.max(0, Math.floor(timeDiff / (1000 * 60 * 60 * 24)));
+  
+  document.getElementById("daysCounter").textContent = `🎨 网站已运行 ${daysDiff} 天 🎨`;
+}
+
+window.onload = function() {
+  updateDaysCounter();
+}
+
+// Music Player Code
+let isPlaying = false;
+let synth;
+let progressInterval;
+let startTime;
+let musicTimeout; // 添加超时变量
+const duration = 120; // 2 minutes
+
+// 优化后的优美旋律线条
+const sections = {
+    exposition: [
+        ['C4', '4n'], ['D4', '8n'], ['E4', '8n'], ['F4', '4n'], ['G4', '8n'], ['A4', '8n'], 
+        ['B4', '2n'], ['A4', '8n'], ['G4', '8n'], ['F4', '4n'], ['E4', '2n'],
+        ['C4', '8n'], ['E4', '8n'], ['G4', '4n'], ['C5', '8n'], ['B4', '8n'],
+        ['A4', '2n'], ['G4', '8n'], ['F4', '8n'], ['E4', '4n'], ['D4', '2n']
+    ],
+    development: [
+        ['E4', '8n'], ['F4', '8n'], ['G4', '4n'], ['A4', '8n'], ['B4', '8n'], ['C5', '4n'],
+        ['D5', '2n'], ['C5', '8n'], ['B4', '8n'], ['A4', '4n'], ['G4', '2n'],
+        ['F4', '8n'], ['G4', '8n'], ['A4', '4n'], ['B4', '8n'], ['C5', '8n'], ['D5', '4n'],
+        ['E5', '2n'], ['D5', '8n'], ['C5', '8n'], ['B4', '4n'], ['A4', '2n']
+    ],
+    modulation: [
+        ['G4', '8n'], ['A4', '8n'], ['B4', '4n'], ['C5', '8n'], ['D5', '8n'], ['E5', '4n'],
+        ['F5', '2n'], ['E5', '8n'], ['D5', '8n'], ['C5', '4n'], ['B4', '2n'],
+        ['A4', '8n'], ['B4', '8n'], ['C5', '4n'], ['B4', '8n'], ['A4', '8n'], ['G4', '4n'],
+        ['F4', '2n'], ['E4', '8n'], ['D4', '8n'], ['C4', '4n'], ['G3', '2n']
+    ],
+    recapitulation: [
+        ['C4', '8n'], ['D4', '8n'], ['E4', '4n'], ['F4', '8n'], ['G4', '8n'], ['A4', '4n'],
+        ['B4', '2n'], ['C5', '8n'], ['B4', '8n'], ['A4', '4n'], ['G4', '2n'],
+        ['F4', '8n'], ['E4', '8n'], ['D4', '4n'], ['C4', '8n'], ['E4', '8n'], ['G4', '4n'],
+        ['C5', '1n'], ['C4', '2n.']
+    ]
+};
+
+// 更丰富的和声色彩
+const harmonyProgression = {
+    exposition: [
+        [['C4', 'E4', 'G4', 'C5'], '2n'], [['F3', 'A3', 'C4', 'F4'], '2n'],
+        [['G3', 'B3', 'D4', 'G4'], '2n'], [['C4', 'E4', 'G4', 'C5'], '2n']
+    ],
+    development: [
+        [['A3', 'C4', 'E4', 'A4'], '2n'], [['D3', 'F3', 'A3', 'D4'], '2n'],
+        [['G3', 'B3', 'D4', 'F4'], '2n'], [['E3', 'G3', 'B3', 'E4'], '2n']
+    ],
+    modulation: [
+        [['G3', 'B3', 'D4', 'F4'], '2n'], [['C4', 'E4', 'G4', 'B4'], '2n'],
+        [['F3', 'A3', 'C4', 'E4'], '2n'], [['G2', 'B2', 'D3', 'F3'], '2n']
+    ],
+    recapitulation: [
+        [['C3', 'E3', 'G3', 'C4'], '2n'], [['F3', 'A3', 'C4', 'F4'], '2n'],
+        [['G3', 'B3', 'D4', 'G4'], '2n'], [['C3', 'E3', 'G3', 'C4'], '1n']
+    ]
+};
+
+// 低音线条 (巴赫式)
+const bassProgression = {
+    exposition: [['C2', '2n'], ['F2', '2n'], ['G2', '2n'], ['C2', '2n']],
+    development: [['A2', '2n'], ['D2', '2n'], ['G2', '2n'], ['E2', '2n']],
+    modulation: [['G2', '2n'], ['C3', '2n'], ['F2', '2n'], ['G2', '2n']],
+    recapitulation: [['C2', '2n'], ['F2', '2n'], ['G2', '2n'], ['C2', '1n']]
+};
+
+document.getElementById('musicPlayBtn').addEventListener('click', async () => {
+    if (!isPlaying) {
+        await startMusic();
+    }
+});
+
+document.getElementById('musicStopBtn').addEventListener('click', () => {
+    stopMusic();
+});
+
+async function startMusic() {
+    await Tone.start();
+    
+    // 创建温暖细腻的钢琴音色
+    synth = new Tone.PolySynth(Tone.Synth, {
+        oscillator: {
+            type: "custom",
+            partials: [1, 0.7, 0.5, 0.3, 0.2, 0.1, 0.05] // 更温暖的泛音
+        },
+        envelope: {
+            attack: 0.01,
+            decay: 0.8,
+            sustain: 0.3,
+            release: 3
+        },
+        filter: {
+            type: "lowpass", 
+            frequency: 4000,
+            rolloff: -12,
+            Q: 1
+        },
+        filterEnvelope: {
+            attack: 0.002,
+            decay: 0.4,
+            sustain: 0.5,
+            release: 2,
+            baseFrequency: 800,
+            octaves: 2
+        },
+        volume: -12 // Lower volume for background music
+    }).toDestination();
+
+    // 精致的音响处理
+    const reverb = new Tone.Reverb({
+        decay: 3.5,
+        wet: 0.35,
+        preDelay: 0.02
+    }).toDestination();
+    
+    const chorus = new Tone.Chorus({
+        frequency: 0.8,
+        delayTime: 2.5,
+        depth: 0.5,
+        wet: 0.2
+    }).start();
+    
+    const compressor = new Tone.Compressor({
+        threshold: -16,
+        ratio: 4,
+        attack: 0.005,
+        release: 0.15
     });
 
-    document.documentElement.lang = currentLang === "en" ? "en" : "zh-CN";
+    synth.chain(chorus, compressor, reverb);
 
-    document.getElementById("langBtn").textContent =
-      currentLang === "en" ? "中文 / English" : "English / 中文";
-  }
+    isPlaying = true;
+    startTime = Tone.now();
+    
+    document.getElementById('musicPlayBtn').disabled = true;
+    document.getElementById('musicStopBtn').disabled = false;
+
+    // 开始进度条更新
+    updateMusicProgress();
+
+    // 播放完整曲式结构
+    playCompleteStructure();
+
+    // 2分钟后自动停止
+    musicTimeout = setTimeout(() => {
+        stopMusic();
+    }, duration * 1000);
+}
+
+function playCompleteStructure() {
+    const sectionOrder = ['exposition', 'development', 'modulation', 'recapitulation'];
+    let totalTime = 0;
+
+    function playSection(sectionName, startTime) {
+        const melody = sections[sectionName];
+        const harmony = harmonyProgression[sectionName];
+        const bass = bassProgression[sectionName];
+
+        // 计算旋律持续时间
+        let melodyTime = startTime;
+        melody.forEach(([note, duration]) => {
+            synth.triggerAttackRelease(note, duration, Tone.now() + melodyTime, 0.6); // Lower velocity for background
+            melodyTime += Tone.Time(duration).toSeconds();
+        });
+
+        // 和声与旋律同步开始
+        let harmonyTime = startTime;
+        harmony.forEach(([chord, duration]) => {
+            chord.forEach(note => {
+                synth.triggerAttackRelease(note, duration, Tone.now() + harmonyTime, 0.3); // Lower velocity
+            });
+            harmonyTime += Tone.Time(duration).toSeconds();
+        });
+
+        // 低音与旋律同步开始
+        let bassTime = startTime;
+        bass.forEach(([note, duration]) => {
+            synth.triggerAttackRelease(note, duration, Tone.now() + bassTime, 0.5); // Lower velocity
+            bassTime += Tone.Time(duration).toSeconds();
+        });
+
+        // 返回这一段的总时长
+        return melody.reduce((total, [, duration]) => {
+            return total + Tone.Time(duration).toSeconds();
+        }, 0);
+    }
+
+    // 无缝连接播放各段落
+    sectionOrder.forEach((section, index) => {
+        if (isPlaying) {
+            const sectionDuration = playSection(section, totalTime);
+            totalTime += sectionDuration;
+        }
+    });
+}
+
+function updateMusicProgress() {
+    if (!isPlaying) return;
+
+    progressInterval = setInterval(() => {
+        const elapsed = (Date.now() - (startTime * 1000)) / 1000;
+        const progress = Math.min((elapsed / duration) * 100, 100);
+        document.getElementById('musicProgressBar').style.width = progress + '%';
+
+        if (progress >= 100) {
+            clearInterval(progressInterval);
+        }
+    }, 100);
+}
+
+function stopMusic() {
+    isPlaying = false;
+    
+    // 清除超时
+    if (musicTimeout) {
+        clearTimeout(musicTimeout);
+        musicTimeout = null;
+    }
+    
+    // 停止所有声音和调度
+    Tone.Transport.stop();
+    Tone.Transport.cancel();
+    
+    if (synth) {
+        synth.releaseAll();
+        synth.dispose();
+        synth = null;
+    }
+    
+    if (progressInterval) {
+        clearInterval(progressInterval);
+        progressInterval = null;
+    }
+
+    document.getElementById('musicPlayBtn').disabled = false;
+    document.getElementById('musicStopBtn').disabled = true;
+    document.getElementById('musicProgressBar').style.width = '0%';
+}
 </script>
 
 </body>
