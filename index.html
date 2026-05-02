@@ -9,11 +9,14 @@
   * { box-sizing: border-box; }
 
   :root {
-    --brown: #60331f;
-    --brown-soft: #83533a;
-    --gold: #d99b54;
+    --ink: #332018;
+    --brown: #5a2f20;
+    --brown-soft: #805139;
+    --gold: #dba35d;
+    --rose: #bf7769;
+    --sage: #72846a;
     --cream: #fff8ec;
-    --card: rgba(255, 255, 255, 0.62);
+    --card: rgba(255, 252, 245, 0.74);
   }
 
   html, body {
@@ -23,11 +26,11 @@
     min-height: 100vh;
     font-family: Georgia, "Times New Roman", serif;
     background:
-      radial-gradient(circle at 50% 4%, rgba(255, 247, 224, 0.98), transparent 34%),
-      radial-gradient(circle at 8% 18%, rgba(255, 224, 184, 0.72), transparent 28%),
-      radial-gradient(circle at 90% 76%, rgba(255, 216, 177, 0.68), transparent 30%),
-      linear-gradient(135deg, #fff7e8 0%, #ffe5ca 48%, #f6c9a8 100%);
-    color: #4b2f22;
+      radial-gradient(circle at 48% 8%, rgba(255, 255, 248, 0.96), transparent 30%),
+      radial-gradient(circle at 12% 20%, rgba(244, 205, 159, 0.62), transparent 25%),
+      radial-gradient(circle at 88% 72%, rgba(196, 124, 103, 0.34), transparent 29%),
+      linear-gradient(135deg, #fffaf1 0%, #f4ddbf 45%, #d79b73 100%);
+    color: var(--ink);
     overflow-x: hidden;
   }
 
@@ -43,39 +46,74 @@
     inset: 0;
     pointer-events: none;
     background-image:
-      radial-gradient(circle, rgba(255,255,255,0.82) 0 2px, transparent 2.5px),
-      radial-gradient(circle, rgba(217,155,84,0.28) 0 1.5px, transparent 2px);
-    background-size: 110px 110px, 160px 160px;
-    background-position: 20px 30px, 70px 80px;
-    opacity: 0.45;
+      linear-gradient(rgba(255,255,255,0.22) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px);
+    background-size: 54px 54px;
+    mask-image: radial-gradient(circle at center, black 0%, transparent 72%);
+    opacity: 0.38;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(255, 241, 191, 0.38), transparent 26%),
+      linear-gradient(90deg, rgba(76, 43, 29, 0.09), transparent 20%, transparent 80%, rgba(76, 43, 29, 0.09));
   }
 
   .page {
     position: relative;
     width: min(1220px, 96vw);
-    min-height: 96vh;
-    padding: 18px 18px 14px;
+    min-height: 100vh;
+    padding: 34px 20px 22px;
     display: grid;
     grid-template-rows: auto 1fr auto;
-    gap: 10px;
+    gap: 18px;
   }
 
   .top { text-align: center; }
 
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 10px;
+    color: #7c5542;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow::before,
+  .eyebrow::after {
+    content: "";
+    width: 36px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(116, 77, 52, 0.5));
+  }
+
+  .eyebrow::after {
+    background: linear-gradient(90deg, rgba(116, 77, 52, 0.5), transparent);
+  }
+
   .main-title {
     margin: 0;
-    font-size: clamp(32px, 4.7vw, 60px);
+    font-size: clamp(36px, 5vw, 66px);
     line-height: 1.02;
     font-weight: 700;
     color: var(--brown);
-    letter-spacing: 0.4px;
-    text-shadow: 0 8px 24px rgba(124, 67, 34, 0.10);
+    letter-spacing: 0;
+    text-shadow: 0 14px 34px rgba(106, 57, 34, 0.16);
   }
 
   .sub-verse {
-    margin-top: 6px;
-    font-size: clamp(14px, 1.45vw, 19px);
-    color: #8a5639;
+    max-width: 620px;
+    margin: 10px auto 0;
+    font-size: clamp(14px, 1.35vw, 18px);
+    line-height: 1.5;
+    color: #78513f;
   }
 
   .language {
@@ -84,26 +122,37 @@
     right: 16px;
     z-index: 10;
     font-size: 14px;
-    padding: 8px 14px;
+    padding: 9px 14px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.68);
-    border: 1px solid rgba(130,80,40,0.18);
+    background: rgba(255, 252, 246, 0.78);
+    border: 1px solid rgba(130,80,40,0.20);
     backdrop-filter: blur(10px);
     cursor: pointer;
     color: #6b351f;
-    box-shadow: 0 10px 24px rgba(120, 70, 35, 0.10);
+    box-shadow: 0 12px 30px rgba(91, 53, 35, 0.12);
   }
 
   .hero {
     position: relative;
     width: 100%;
-    min-height: 620px;
+    min-height: 640px;
     display: grid;
-    grid-template-columns: minmax(360px, 1fr) 210px minmax(360px, 1fr);
+    grid-template-columns: minmax(340px, 1fr) 230px minmax(340px, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    column-gap: 28px;
-    row-gap: 18px;
+    column-gap: 34px;
+    row-gap: 20px;
     align-items: center;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 6% 18% 8%;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle, rgba(255, 255, 249, 0.58), rgba(255, 221, 157, 0.22) 36%, transparent 68%);
+    filter: blur(8px);
+    pointer-events: none;
   }
 
   .cross-wrap {
@@ -116,18 +165,18 @@
 
   .cross-aura {
     position: relative;
-    width: 230px;
-    height: 430px;
+    width: 240px;
+    height: 440px;
     border-radius: 999px;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: visible;
     background:
-      radial-gradient(circle, rgba(255,255,255,0.98) 0%, rgba(255,245,220,0.92) 18%, rgba(255,224,163,0.78) 36%, rgba(255,200,110,0.42) 56%, rgba(255,200,110,0.10) 72%, transparent 82%);
+      radial-gradient(circle, rgba(255,255,255,0.98) 0%, rgba(255,246,226,0.94) 18%, rgba(255,218,148,0.76) 38%, rgba(224,145,83,0.30) 58%, rgba(255,200,110,0.08) 72%, transparent 82%);
     box-shadow:
-      0 0 110px rgba(255, 188, 82, 0.42),
-      0 0 190px rgba(255, 214, 140, 0.32),
+      0 0 120px rgba(255, 188, 82, 0.38),
+      0 0 210px rgba(255, 214, 140, 0.28),
       inset 0 0 50px rgba(255, 247, 227, 0.28);
   }
 
@@ -158,8 +207,8 @@
   .cross {
     position: relative;
     z-index: 2;
-    width: 138px;
-    height: 225px;
+    width: 142px;
+    height: 230px;
     filter:
       drop-shadow(0 0 20px rgba(255, 234, 189, 0.95))
       drop-shadow(0 0 34px rgba(255, 196, 93, 0.72))
@@ -222,26 +271,26 @@
       0 14px 32px rgba(105, 57, 22, 0.22);
   }
 
-  .cross::before { width: 56px; height: 225px; }
-  .cross::after { width: 138px; height: 52px; top: 38%; }
+  .cross::before { width: 56px; height: 230px; }
+  .cross::after { width: 142px; height: 52px; top: 38%; }
 
   .module {
     position: relative;
     isolation: isolate;
-    min-height: 166px;
-    padding: 14px 16px;
-    border-radius: 34px;
+    min-height: 172px;
+    padding: 16px;
+    border-radius: 24px;
     background:
-      linear-gradient(145deg, rgba(255,255,255,0.76), rgba(255,244,226,0.54));
-    border: 1px solid rgba(137, 84, 45, 0.15);
+      linear-gradient(145deg, rgba(255,255,255,0.84), rgba(255,246,232,0.62));
+    border: 1px solid rgba(106, 67, 45, 0.16);
     box-shadow:
-      0 20px 46px rgba(139, 83, 43, 0.13),
+      0 22px 54px rgba(105, 64, 44, 0.15),
       inset 0 1px 0 rgba(255,255,255,0.88);
     display: grid;
-    grid-template-columns: 118px 1fr;
-    gap: 16px;
+    grid-template-columns: 126px 1fr;
+    gap: 18px;
     align-items: center;
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px);
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     overflow: hidden;
   }
@@ -250,7 +299,9 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,222,170,0.08));
+    background:
+      linear-gradient(135deg, rgba(255,255,255,0.20), rgba(255,222,170,0.10)),
+      radial-gradient(circle at top left, rgba(255,255,255,0.36), transparent 44%);
     opacity: 0;
     transition: opacity 0.25s ease;
     pointer-events: none;
@@ -279,9 +330,9 @@
   }
 
   .module:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
     border-color: rgba(217, 155, 84, 0.36);
-    box-shadow: 0 26px 58px rgba(139, 83, 43, 0.19);
+    box-shadow: 0 30px 66px rgba(94, 55, 35, 0.22);
   }
 
   .module:hover::before {
@@ -312,15 +363,31 @@
   .module-image {
     position: relative;
     z-index: 1;
-    width: 118px;
-    height: 118px;
-    border-radius: 28px;
+    width: 126px;
+    height: 126px;
+    border-radius: 20px;
     object-fit: cover;
     display: block;
     box-shadow:
-      0 12px 28px rgba(111, 65, 37, 0.17),
+      0 14px 30px rgba(98, 57, 36, 0.18),
       inset 0 0 0 1px rgba(255,255,255,0.72);
-    border: 3px solid rgba(255,255,255,0.68);
+    border: 3px solid rgba(255,255,255,0.76);
+  }
+
+  .module-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 9px;
+    border-radius: 999px;
+    color: #74472d;
+    font-size: 13px;
+    font-weight: 700;
+    background: rgba(255, 240, 210, 0.82);
+    border: 1px solid rgba(160, 105, 58, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
   }
 
   .module-copy {
@@ -331,23 +398,23 @@
 
   .module h2 {
     margin: 0;
-    font-size: clamp(19px, 1.75vw, 26px);
+    font-size: clamp(18px, 1.55vw, 24px);
     line-height: 1.12;
     color: var(--brown);
   }
 
   .module p {
-    margin: 8px 0 0;
+    margin: 9px 0 0;
     font-size: clamp(13px, 1.05vw, 16px);
-    line-height: 1.35;
-    color: #79503a;
+    line-height: 1.42;
+    color: #6f4a38;
   }
 
   .footer {
     text-align: center;
-    font-size: clamp(14px, 1.35vw, 18px);
-    color: #7d4b31;
-    padding-bottom: 4px;
+    font-size: clamp(14px, 1.22vw, 17px);
+    color: #6f4936;
+    padding: 8px 0 4px;
   }
 
   .soft-glow {
@@ -356,25 +423,25 @@
     width: 190px;
     height: 190px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.24);
-    filter: blur(28px);
+    background: rgba(255,255,255,0.28);
+    filter: blur(30px);
     pointer-events: none;
   }
 
   @media (max-height: 790px) {
-    .page { padding-top: 12px; }
+    .page { padding-top: 18px; }
     .hero { min-height: 550px; row-gap: 12px; }
     .module {
-      min-height: 140px;
-      grid-template-columns: 96px 1fr;
-      gap: 13px;
+      min-height: 144px;
+      grid-template-columns: 98px 1fr;
+      gap: 14px;
       padding: 12px 14px;
-      border-radius: 28px;
+      border-radius: 22px;
     }
     .module-image {
-      width: 96px;
-      height: 96px;
-      border-radius: 24px;
+      width: 98px;
+      height: 98px;
+      border-radius: 18px;
     }
     .cross-aura { width: 185px; height: 340px; }
     .cross { width: 120px; height: 195px; }
@@ -384,12 +451,12 @@
 
   @media (max-width: 950px) {
     body { align-items: flex-start; }
-    .page { min-height: auto; padding-top: 62px; }
+    .page { min-height: auto; padding-top: 70px; }
     .hero {
       min-height: auto;
       grid-template-columns: 1fr;
       grid-template-rows: auto;
-      gap: 18px;
+      gap: 16px;
     }
     .cross-wrap {
       grid-column: 1;
@@ -397,20 +464,36 @@
       order: -1;
       padding: 4px 0;
     }
-    .cross-aura { width: 205px; height: 265px; }
+    .cross-aura { width: 205px; height: 270px; }
     .module { min-height: 142px; }
+    .hero::before { inset: 0 8% auto; height: 320px; }
   }
 
   @media (max-width: 560px) {
+    .page {
+      width: min(100%, 94vw);
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .eyebrow { font-size: 12px; }
+    .eyebrow::before,
+    .eyebrow::after { width: 22px; }
     .module {
-      grid-template-columns: 86px 1fr;
-      border-radius: 26px;
+      grid-template-columns: 82px 1fr;
+      border-radius: 20px;
       padding: 12px;
+      gap: 12px;
     }
     .module-image {
-      width: 86px;
-      height: 86px;
-      border-radius: 22px;
+      width: 82px;
+      height: 82px;
+      border-radius: 16px;
+    }
+    .module-number {
+      width: 26px;
+      height: 26px;
+      margin-bottom: 7px;
+      font-size: 12px;
     }
   }
 </style>
@@ -422,6 +505,7 @@
 
   <main class="page">
     <header class="top">
+      <div class="eyebrow" data-zh="一个远方相聚的地方" data-en="A place to gather">A place to gather</div>
       <h1 class="main-title" data-zh="把失散的聚集起来" data-en="Gather the scattered into one">Gather the scattered into one</h1>
       <div class="sub-verse" data-zh="He will gather together the scattered children of God." data-en="He will gather together the scattered children of God.">He will gather together the scattered children of God.</div>
     </header>
@@ -430,6 +514,7 @@
       <div class="module">
         <img class="module-image" src="assets/module-1.jpg" alt="Calling Christians around the world" />
         <div class="module-copy">
+          <span class="module-number">01</span>
           <h2 data-zh="召唤全球基督徒" data-en="Calling Christians around the world">Calling Christians around the world</h2>
           <p data-zh="连接远方的弟兄姊妹" data-en="Connecting brothers and sisters from afar">Connecting brothers and sisters from afar</p>
         </div>
@@ -442,6 +527,7 @@
       <div class="module">
         <img class="module-image" src="assets/module-2.jpg" alt="Rebuilding beautiful fellowship" />
         <div class="module-copy">
+          <span class="module-number">02</span>
           <h2 data-zh="重建美好的肢体情谊" data-en="Rebuilding beautiful fellowship">Rebuilding beautiful fellowship</h2>
           <p data-zh="让彼此重新相遇、同行、扶持" data-en="Meeting, walking, and supporting one another again">Meeting, walking, and supporting one another again</p>
         </div>
@@ -450,6 +536,7 @@
       <div class="module">
         <img class="module-image" src="assets/module-3.jpg" alt="Encouragement from afar" />
         <div class="module-copy">
+          <span class="module-number">03</span>
           <h2 data-zh="远方的鼓励和陪伴" data-en="Encouragement from afar">Encouragement from afar</h2>
           <p data-zh="在孤单时收到温暖的回应" data-en="Warm responses in lonely moments">Warm responses in lonely moments</p>
         </div>
@@ -458,6 +545,7 @@
       <div class="module">
         <img class="module-image" src="assets/module-4.jpg" alt="Online worship groups anytime" />
         <div class="module-copy">
+          <span class="module-number">04</span>
           <h2 data-zh="随时的线上聚会敬拜小组" data-en="Online worship groups anytime">Online worship groups anytime</h2>
           <p data-zh="不受距离限制，一起敬拜" data-en="Worship together beyond distance">Worship together beyond distance</p>
         </div>
@@ -466,6 +554,7 @@
       <div class="module">
         <img class="module-image" src="assets/module-5.jpg" alt="Prayer groups anytime" />
         <div class="module-copy">
+          <span class="module-number">05</span>
           <h2 data-zh="随时的祷告小组" data-en="Prayer groups anytime">Prayer groups anytime</h2>
           <p data-zh="需要时可以一起祷告" data-en="Pray together whenever needed">Pray together whenever needed</p>
         </div>
@@ -474,6 +563,7 @@
       <div class="module">
         <img class="module-image" src="assets/module-6.jpg" alt="24-hour volunteer hotline" />
         <div class="module-copy">
+          <span class="module-number">06</span>
           <h2 data-zh="24小时志愿者 Hotline" data-en="24-hour volunteer hotline">24-hour volunteer hotline</h2>
           <p data-zh="有人愿意听你说话" data-en="Someone willing to listen">Someone willing to listen</p>
         </div>
