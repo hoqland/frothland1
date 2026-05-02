@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CYBER HOME</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+<style>
+  body {
+    font-family: 'Gochi Hand', cursive, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden; /* Hide clouds that drift off-screen */
+  }
+
+  /* --- ANIMATIONS --- */
+  @keyframes drift {
+    from { transform: translateX(-20px); }
+    to { transform: translateX(20px); }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 15px rgba(255, 215, 0, 0.1);
+    }
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) rotate(-10deg); }
+    50% { transform: translateY(-10px) rotate(-12deg); }
+  }
+
+  /* --- DECORATIONS --- */
+  .cloud {
+    position: absolute;
+    background: white;
+    border-radius: 100px;
+    opacity: 0.8;
+    animation: drift 10s ease-in-out infinite alternate;
+    filter: url(#wobble-filter); /* Wobble effect */
+  }
+
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 100px;
+  }
+
+  .cloud1 { width: 100px; height: 40px; top: 15%; left: 10%; animation-duration: 12s; }
+  .cloud1::before { width: 50px; height: 50px; top: -25px; left: 10px; }
+  .cloud1::after { width: 60px; height: 40px; top: -20px; right: 10px; }
+
+  .cloud2 { width: 80px; height: 35px; top: 35%; right: 15%; animation-duration: 9s; animation-delay: -3s; }
+  .cloud2::before { width: 40px; height: 40px; top: -20px; left: 15px; }
+  .cloud2::after { width: 50px; height: 35px; top: -15px; right: 15px; }
+
+  .cloud3 { width: 120px; height: 45px; bottom: 25%; left: 20%; animation-duration: 15s; }
+  .cloud3::before { width: 60px; height: 60px; top: -30px; left: 20px; }
+  .cloud3::after { width: 70px; height: 45px; top: -25px; right: 20px; }
+
+  .sun {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    width: 80px;
+    height: 80px;
+    background: #FFD700;
+    border-radius: 50%;
+    border: 3px solid #333;
+    animation: pulse 5s ease-in-out infinite;
+  }
+
+  /* Sun rays using a pseudo-element and box-shadow */
+  .sun::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 105px; /* Ray length */
+    background: #333;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 0; /* To make it a single line */
+  }
+
+  .sun::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 105px;
+    background: #333;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .bird {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    font-size: 30px;
+    animation: bob 3s ease-in-out infinite;
+  }
+
+  /* --- MAIN CONTENT --- */
+  .container {
+    text-align: center;
+    background: #ffffff;
+    padding: 50px 40px;
+    border-radius: 30px 25px 35px 20px; /* Irregular radius */
+    box-shadow: 4px 4px 0 #333, 8px 8px 0 rgba(51, 51, 51, 0.2);
+    border: 3px solid #333;
+    position: relative;
+    transform: rotate(-1.5deg);
+    filter: url(#wobble-filter); /* Wobble effect */
+  }
+
+  /* Scribble decorations */
+  .container::before {
+    content: '~~';
+    font-size: 24px;
+    color: #FF69B4;
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    transform: rotate(-15deg);
+  }
+   .container::after {
+    content: '★';
+    font-size: 20px;
+    color: #98FB98;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    transform: rotate(15deg);
+  }
+
+  .category {
+    display: inline-block;
+    padding: 18px 35px;
+    background: #FFE4B5;
+    color: #333;
+    border-radius: 50px 45px 50px 45px;
+    font-weight: bold;
+    font-size: 30px; /* Larger font */
+    margin-bottom: 35px;
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 rgba(51, 51, 51, 0.3);
+    position: relative;
+    transform: rotate(1deg);
+  }
+
+  .btn {
+    display: inline-block;
+    margin: 10px;
+    padding: 15px 30px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 25px 30px 25px 30px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px; /* Larger font */
+    border: 3px solid #333;
+    transition: all 0.15s ease-out;
+    min-width: 140px;
+    text-align: center;
+    position: relative;
+    box-shadow: 3px 3px 0 rgba(51, 51, 51, 0.3);
+    filter: url(#wobble-filter-light); /* Lighter Wobble */
+  }
+
+  .btn-blue { background: #87CEEB; transform: rotate(-1.5deg); }
+  .btn-pink { background: #FFB6C1; transform: rotate(1deg); }
+  .btn-green { background: #98FB98; transform: rotate(-0.5deg); }
+
+  .btn:hover {
+    transform: translateY(-5px) rotate(0deg) scale(1.05);
+    box-shadow: 6px 6px 0 rgba(51, 51, 51, 0.3);
+  }
+  
+  .btn:active {
+    transform: translateY(2px) rotate(0deg) scale(0.98);
+    box-shadow: 2px 2px 0 rgba(51, 51, 51, 0.3);
+  }
+
+  .days-counter {
+    margin-top: 30px;
+    padding: 14px 24px;
+    background: #FFFACD;
+    border-radius: 20px 25px 20px 25px;
+    font-size: 18px;
+    color: #333;
+    border: 2px solid #333;
+    box-shadow: 2px 2px 0 rgba(51, 51, 51, 0.2);
+    transform: rotate(0.5deg);
+    display: inline-block;
+    position: relative;
+  }
+
+  /* --- MUSIC PLAYER --- */
+  .music-player {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px 15px 25px 18px;
+    padding: 15px 20px;
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 rgba(51, 51, 51, 0.3);
+    z-index: 999; /* 降低z-index，确保不会覆盖聊天机器人 */
+    transform: rotate(-2deg);
+    min-width: 200px;
+  }
+
+  .music-player-title {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .music-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .music-btn {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: 2px solid #333;
+    padding: 8px 15px;
+    border-radius: 15px 12px 15px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Gochi Hand', cursive;
+    transition: all 0.2s;
+  }
+
+  .music-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  }
+
+  .music-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .music-progress {
+    flex-grow: 1;
+    height: 6px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid #333;
+  }
+
+  .music-progress-bar {
+    height: 100%;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    width: 0%;
+    transition: width 0.1s;
+  }
+
+  .music-icon {
+    display: inline-block;
+    margin-right: 5px;
+  }
+</style>
+</head>
+<body>
+
+<svg style="position:absolute; width:0; height:0;">
+  <filter id="wobble-filter">
+    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="1" result="warp" />
+    <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="4" in="SourceGraphic" in2="warp" />
+  </filter>
+  <filter id="wobble-filter-light">
+    <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="warp" />
+    <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="3" in="SourceGraphic" in2="warp" />
+  </filter>
+</svg>
+
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+<div class="sun"></div>
+<div class="bird">🕊️</div>
+  
+<div class="container">
+    <div class="category">🏠 CYBER HOME 🏠-专业知识服务提供+私人知识库</div><br>
+    
+    <a class="btn btn-blue" href="10.html">📚 Cyber知识库</a>
+    <div class="btn btn-pink" onclick="checkPassword()">👭 私人回忆录</div>
+    <a class="btn btn-green" href="says.html">📝 留言板</a>
+    
+    <div class="days-counter" id="daysCounter">计算天数中...</div>
+</div>
+
+<!-- Music Player -->
+<div class="music-player">
+    <div class="music-player-title">
+        <span class="music-icon">🎵</span>巴赫风格钢琴曲
+    </div>
+    <div class="music-controls">
+        <button class="music-btn" id="musicPlayBtn">播放</button>
+        <button class="music-btn" id="musicStopBtn" disabled>停止</button>
+        <div class="music-progress">
+            <div class="music-progress-bar" id="musicProgressBar"></div>
+        </div>
+    </div>
+</div>
+   
+<!-- Botpress Chatbot - 右下角AI对话机器人 -->
+<script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js" defer></script>
+<script src="https://files.bpcontent.cloud/2025/08/13/15/20250813151410-RKKZZC8P.js" defer></script>
+<script>
+  // 配置聊天机器人位置和样式（可选）
+  window.botpressWebChat = {
+    // 确保机器人在右下角
+    containerWidth: "100%25",
+    layoutWidth: "100%25",
+    hideWidget: false,
+    disableAnimations: false,
+    closeOnEscape: true,
+    showPoweredBy: false,
+    // 自定义样式
+    stylesheet: "https://webchat-styler-css.botpress.app/prod/code/bf5c3001-9361-4a3a-9c0f-c5494abb8b1f/v39826/style.css",
+    // 位置设置
+    useSessionStorage: true,
+    enableTranscriptDownload: false,
+  };
+</script>
+
+<script>
+// Original functions
+function checkPassword() {
+  var pwd = prompt("请输入密码：");
+  if (pwd === "130523") {
+    window.location.href = "memory.html";
+  } else if (pwd) { // Check if user entered something
+    alert("密码错误！");
+  }
+}
+
+function updateDaysCounter() {
+  const birthDate = new Date("2025-08-10");
+  const today = new Date();
+  
+  // Set time to 00:00:00 to count full days
+  birthDate.setHours(0,0,0,0);
+  today.setHours(0,0,0,0);
+
+  const timeDiff = today - birthDate;
+  // Use Math.max to prevent negative numbers before the start date
+  const daysDiff = Math.max(0, Math.floor(timeDiff / (1000 * 60 * 60 * 24)));
+  
+  document.getElementById("daysCounter").textContent = `🎨 网站已运行 ${daysDiff} 天 🎨`;
+}
+
+window.onload = function() {
+  updateDaysCounter();
+}
+
+// Music Player Code
+let isPlaying = false;
+let synth;
+let progressInterval;
+let startTime;
+let musicTimeout; // 添加超时变量
+const duration = 120; // 2 minutes
+
+// 优化后的优美旋律线条
+const sections = {
+    exposition: [
+        ['C4', '4n'], ['D4', '8n'], ['E4', '8n'], ['F4', '4n'], ['G4', '8n'], ['A4', '8n'], 
+        ['B4', '2n'], ['A4', '8n'], ['G4', '8n'], ['F4', '4n'], ['E4', '2n'],
+        ['C4', '8n'], ['E4', '8n'], ['G4', '4n'], ['C5', '8n'], ['B4', '8n'],
+        ['A4', '2n'], ['G4', '8n'], ['F4', '8n'], ['E4', '4n'], ['D4', '2n']
+    ],
+    development: [
+        ['E4', '8n'], ['F4', '8n'], ['G4', '4n'], ['A4', '8n'], ['B4', '8n'], ['C5', '4n'],
+        ['D5', '2n'], ['C5', '8n'], ['B4', '8n'], ['A4', '4n'], ['G4', '2n'],
+        ['F4', '8n'], ['G4', '8n'], ['A4', '4n'], ['B4', '8n'], ['C5', '8n'], ['D5', '4n'],
+        ['E5', '2n'], ['D5', '8n'], ['C5', '8n'], ['B4', '4n'], ['A4', '2n']
+    ],
+    modulation: [
+        ['G4', '8n'], ['A4', '8n'], ['B4', '4n'], ['C5', '8n'], ['D5', '8n'], ['E5', '4n'],
+        ['F5', '2n'], ['E5', '8n'], ['D5', '8n'], ['C5', '4n'], ['B4', '2n'],
+        ['A4', '8n'], ['B4', '8n'], ['C5', '4n'], ['B4', '8n'], ['A4', '8n'], ['G4', '4n'],
+        ['F4', '2n'], ['E4', '8n'], ['D4', '8n'], ['C4', '4n'], ['G3', '2n']
+    ],
+    recapitulation: [
+        ['C4', '8n'], ['D4', '8n'], ['E4', '4n'], ['F4', '8n'], ['G4', '8n'], ['A4', '4n'],
+        ['B4', '2n'], ['C5', '8n'], ['B4', '8n'], ['A4', '4n'], ['G4', '2n'],
+        ['F4', '8n'], ['E4', '8n'], ['D4', '4n'], ['C4', '8n'], ['E4', '8n'], ['G4', '4n'],
+        ['C5', '1n'], ['C4', '2n.']
+    ]
+};
+
+// 更丰富的和声色彩
+const harmonyProgression = {
+    exposition: [
+        [['C4', 'E4', 'G4', 'C5'], '2n'], [['F3', 'A3', 'C4', 'F4'], '2n'],
+        [['G3', 'B3', 'D4', 'G4'], '2n'], [['C4', 'E4', 'G4', 'C5'], '2n']
+    ],
+    development: [
+        [['A3', 'C4', 'E4', 'A4'], '2n'], [['D3', 'F3', 'A3', 'D4'], '2n'],
+        [['G3', 'B3', 'D4', 'F4'], '2n'], [['E3', 'G3', 'B3', 'E4'], '2n']
+    ],
+    modulation: [
+        [['G3', 'B3', 'D4', 'F4'], '2n'], [['C4', 'E4', 'G4', 'B4'], '2n'],
+        [['F3', 'A3', 'C4', 'E4'], '2n'], [['G2', 'B2', 'D3', 'F3'], '2n']
+    ],
+    recapitulation: [
+        [['C3', 'E3', 'G3', 'C4'], '2n'], [['F3', 'A3', 'C4', 'F4'], '2n'],
+        [['G3', 'B3', 'D4', 'G4'], '2n'], [['C3', 'E3', 'G3', 'C4'], '1n']
+    ]
+};
+
+// 低音线条 (巴赫式)
+const bassProgression = {
+    exposition: [['C2', '2n'], ['F2', '2n'], ['G2', '2n'], ['C2', '2n']],
+    development: [['A2', '2n'], ['D2', '2n'], ['G2', '2n'], ['E2', '2n']],
+    modulation: [['G2', '2n'], ['C3', '2n'], ['F2', '2n'], ['G2', '2n']],
+    recapitulation: [['C2', '2n'], ['F2', '2n'], ['G2', '2n'], ['C2', '1n']]
+};
+
+document.getElementById('musicPlayBtn').addEventListener('click', async () => {
+    if (!isPlaying) {
+        await startMusic();
+    }
+});
+
+document.getElementById('musicStopBtn').addEventListener('click', () => {
+    stopMusic();
+});
+
+async function startMusic() {
+    await Tone.start();
+    
+    // 创建温暖细腻的钢琴音色
+    synth = new Tone.PolySynth(Tone.Synth, {
+        oscillator: {
+            type: "custom",
+            partials: [1, 0.7, 0.5, 0.3, 0.2, 0.1, 0.05] // 更温暖的泛音
+        },
+        envelope: {
+            attack: 0.01,
+            decay: 0.8,
+            sustain: 0.3,
+            release: 3
+        },
+        filter: {
+            type: "lowpass", 
+            frequency: 4000,
+            rolloff: -12,
+            Q: 1
+        },
+        filterEnvelope: {
+            attack: 0.002,
+            decay: 0.4,
+            sustain: 0.5,
+            release: 2,
+            baseFrequency: 800,
+            octaves: 2
+        },
+        volume: -12 // Lower volume for background music
+    }).toDestination();
+
+    // 精致的音响处理
+    const reverb = new Tone.Reverb({
+        decay: 3.5,
+        wet: 0.35,
+        preDelay: 0.02
+    }).toDestination();
+    
+    const chorus = new Tone.Chorus({
+        frequency: 0.8,
+        delayTime: 2.5,
+        depth: 0.5,
+        wet: 0.2
+    }).start();
+    
+    const compressor = new Tone.Compressor({
+        threshold: -16,
+        ratio: 4,
+        attack: 0.005,
+        release: 0.15
+    });
+
+    synth.chain(chorus, compressor, reverb);
+
+    isPlaying = true;
+    startTime = Tone.now();
+    
+    document.getElementById('musicPlayBtn').disabled = true;
+    document.getElementById('musicStopBtn').disabled = false;
+
+    // 开始进度条更新
+    updateMusicProgress();
+
+    // 播放完整曲式结构
+    playCompleteStructure();
+
+    // 2分钟后自动停止
+    musicTimeout = setTimeout(() => {
+        stopMusic();
+    }, duration * 1000);
+}
+
+function playCompleteStructure() {
+    const sectionOrder = ['exposition', 'development', 'modulation', 'recapitulation'];
+    let totalTime = 0;
+
+    function playSection(sectionName, startTime) {
+        const melody = sections[sectionName];
+        const harmony = harmonyProgression[sectionName];
+        const bass = bassProgression[sectionName];
+
+        // 计算旋律持续时间
+        let melodyTime = startTime;
+        melody.forEach(([note, duration]) => {
+            synth.triggerAttackRelease(note, duration, Tone.now() + melodyTime, 0.6); // Lower velocity for background
+            melodyTime += Tone.Time(duration).toSeconds();
+        });
+
+        // 和声与旋律同步开始
+        let harmonyTime = startTime;
+        harmony.forEach(([chord, duration]) => {
+            chord.forEach(note => {
+                synth.triggerAttackRelease(note, duration, Tone.now() + harmonyTime, 0.3); // Lower velocity
+            });
+            harmonyTime += Tone.Time(duration).toSeconds();
+        });
+
+        // 低音与旋律同步开始
+        let bassTime = startTime;
+        bass.forEach(([note, duration]) => {
+            synth.triggerAttackRelease(note, duration, Tone.now() + bassTime, 0.5); // Lower velocity
+            bassTime += Tone.Time(duration).toSeconds();
+        });
+
+        // 返回这一段的总时长
+        return melody.reduce((total, [, duration]) => {
+            return total + Tone.Time(duration).toSeconds();
+        }, 0);
+    }
+
+    // 无缝连接播放各段落
+    sectionOrder.forEach((section, index) => {
+        if (isPlaying) {
+            const sectionDuration = playSection(section, totalTime);
+            totalTime += sectionDuration;
+        }
+    });
+}
+
+function updateMusicProgress() {
+    if (!isPlaying) return;
+
+    progressInterval = setInterval(() => {
+        const elapsed = (Date.now() - (startTime * 1000)) / 1000;
+        const progress = Math.min((elapsed / duration) * 100, 100);
+        document.getElementById('musicProgressBar').style.width = progress + '%';
+
+        if (progress >= 100) {
+            clearInterval(progressInterval);
+        }
+    }, 100);
+}
+
+function stopMusic() {
+    isPlaying = false;
+    
+    // 清除超时
+    if (musicTimeout) {
+        clearTimeout(musicTimeout);
+        musicTimeout = null;
+    }
+    
+    // 停止所有声音和调度
+    Tone.Transport.stop();
+    Tone.Transport.cancel();
+    
+    if (synth) {
+        synth.releaseAll();
+        synth.dispose();
+        synth = null;
+    }
+    
+    if (progressInterval) {
+        clearInterval(progressInterval);
+        progressInterval = null;
+    }
+
+    document.getElementById('musicPlayBtn').disabled = false;
+    document.getElementById('musicStopBtn').disabled = true;
+    document.getElementById('musicProgressBar').style.width = '0%';
+}
+</script>
+
+</body>
+</html>
