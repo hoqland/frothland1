@@ -1,0 +1,12 @@
+FINAL LINK CHECK
+
+All six homepage module targets should be in the same folder as index.html:
+
+- encouragement.html: OK
+- fellowship.html: OK
+- global_christian_call.html: OK
+- online-worship.html: OK
+- prayer-groups.html: OK
+- volunteer-hotline.html: OK
+
+Fixed broken old path: /fellowship -> fellowship.html
