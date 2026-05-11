@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gather the scattered into one</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(220, 240, 255, 0.95), transparent 28%),
+    radial-gradient(circle at 80% 10%, rgba(255, 235, 245, 0.95), transparent 26%),
+    radial-gradient(circle at 50% 90%, rgba(230, 255, 245, 0.95), transparent 30%),
+    linear-gradient(135deg, #ffffff 0%, #f8fbff 45%, #ffffff 100%);
+  color: #2f3a4a;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  background:
+    repeating-linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.2) 0px,
+      rgba(255, 255, 255, 0.2) 2px,
+      transparent 2px,
+      transparent 16px
+    );
+  animation: driftLines 18s linear infinite;
+  opacity: 0.7;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(160, 190, 230, 0.18) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(circle, black 20%, transparent 75%);
+  animation: dotPulse 6s ease-in-out infinite alternate;
+}
+
+.scene {
+  position: relative;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.card {
+  position: relative;
+  width: min(860px, 92vw);
+  min-height: 430px;
+  padding: 70px 34px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border-radius: 44px;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 30px 80px rgba(120, 150, 190, 0.22),
+    inset 0 0 40px rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(26px);
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background:
+    conic-gradient(
+      from 0deg,
+      transparent,
+      rgba(210, 235, 255, 0.9),
+      rgba(255, 230, 245, 0.85),
+      rgba(225, 255, 245, 0.85),
+      transparent
+    );
+  animation: spinGlow 10s linear infinite;
+  opacity: 0.75;
+  z-index: -1;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.95), transparent 70%);
+  top: -80px;
+  right: -70px;
+  animation: softFloat 8s ease-in-out infinite;
+}
+
+.content {
+  position: relative;
+  z-index: 5;
+}
+
+h1 {
+  font-size: clamp(2.45rem, 7vw, 6.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.07em;
+  font-weight: 900;
+  color: #263447;
+  text-shadow:
+    0 2px 0 rgba(255,255,255,0.95),
+    0 18px 40px rgba(130,160,200,0.22);
+  animation: titleRise 1.4s ease both;
+}
+
+h2 {
+  margin-top: 28px;
+  font-size: clamp(1.05rem, 2.5vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #65738a;
+  animation: fadeUp 1.4s ease 0.3s both;
+}
+
+p {
+  margin-top: 16px;
+  font-size: clamp(0.98rem, 2vw, 1.35rem);
+  font-weight: 500;
+  color: #8a96a8;
+  animation: fadeUp 1.4s ease 0.55s both;
+}
+
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(2px);
+  opacity: 0.82;
+  z-index: 1;
+  animation: orbFloat 12s ease-in-out infinite;
+}
+
+.o1 {
+  width: 210px;
+  height: 210px;
+  left: 7%;
+  top: 13%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, rgba(180,220,255,0.55), transparent 72%);
+}
+
+.o2 {
+  width: 160px;
+  height: 160px;
+  right: 11%;
+  top: 18%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, rgba(255,210,230,0.52), transparent 72%);
+  animation-delay: -3s;
+}
+
+.o3 {
+  width: 230px;
+  height: 230px;
+  left: 12%;
+  bottom: 8%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, rgba(215,255,240,0.55), transparent 72%);
+  animation-delay: -6s;
+}
+
+.o4 {
+  width: 140px;
+  height: 140px;
+  right: 16%;
+  bottom: 12%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, rgba(235,225,255,0.5), transparent 72%);
+  animation-delay: -9s;
+}
+
+.ring {
+  position: fixed;
+  border-radius: 50%;
+  border: 1px solid rgba(150, 180, 220, 0.24);
+  z-index: 1;
+  animation: ringSpin 16s linear infinite;
+}
+
+.r1 {
+  width: 520px;
+  height: 520px;
+  left: -180px;
+  top: -150px;
+}
+
+.r2 {
+  width: 640px;
+  height: 640px;
+  right: -260px;
+  bottom: -260px;
+  animation-direction: reverse;
+}
+
+.wave {
+  position: fixed;
+  width: 120vw;
+  height: 160px;
+  left: -10vw;
+  border-radius: 50%;
+  border-top: 2px solid rgba(180, 210, 245, 0.28);
+  z-index: 1;
+  animation: waveMove 9s ease-in-out infinite;
+}
+
+.w1 { top: 18%; }
+.w2 { top: 34%; animation-delay: -2s; }
+.w3 { top: 72%; animation-delay: -5s; }
+
+.cartoon {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  left: 50%;
+  top: 38px;
+  transform: translateX(-50%);
+  opacity: 0.95;
+  animation: bob 4s ease-in-out infinite;
+}
+
+.face {
+  position: absolute;
+  width: 76px;
+  height: 76px;
+  left: 37px;
+  top: 12px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffffff, #edf7ff);
+  box-shadow:
+    0 12px 28px rgba(135,160,190,0.18),
+    inset -8px -10px 18px rgba(200,225,245,0.45);
+}
+
+.face::before,
+.face::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 12px;
+  border-radius: 50%;
+  top: 30px;
+  background: #5d6b7e;
+  animation: blink 4s infinite;
+}
+
+.face::before { left: 22px; }
+.face::after { right: 22px; }
+
+.body-shape {
+  position: absolute;
+  width: 106px;
+  height: 58px;
+  left: 22px;
+  top: 86px;
+  border-radius: 50px 50px 24px 24px;
+  background: linear-gradient(145deg, #ffffff, #eef8ff);
+  box-shadow:
+    0 18px 32px rgba(135,160,190,0.16),
+    inset 0 0 20px rgba(255,255,255,0.8);
+}
+
+.spark,
+.particle,
+.petals span {
+  position: fixed;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.spark {
+  width: 8px;
+  height: 8px;
+  background: white;
+  box-shadow: 0 0 18px rgba(150, 190, 235, 0.9);
+  clip-path: polygon(50% 0%, 61% 38%, 100% 50%, 61% 62%, 50% 100%, 39% 62%, 0% 50%, 39% 38%);
+  animation: sparkle 3.5s ease-in-out infinite;
+}
+
+.s1 { left: 18%; top: 20%; }
+.s2 { left: 78%; top: 26%; animation-delay: -1s; }
+.s3 { left: 70%; top: 72%; animation-delay: -2s; }
+.s4 { left: 24%; top: 74%; animation-delay: -1.6s; }
+.s5 { left: 50%; top: 12%; animation-delay: -0.6s; }
+
+.particle {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 18px rgba(160, 195, 235, 0.58);
+  animation: particleFloat linear infinite;
+}
+
+.comet {
+  position: fixed;
+  width: 160px;
+  height: 2px;
+  z-index: 2;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent);
+  filter: drop-shadow(0 0 12px rgba(150,190,235,0.55));
+  animation: comet 8s linear infinite;
+}
+
+.c1 { top: 16%; left: -20%; transform: rotate(-18deg); }
+.c2 { top: 64%; left: -30%; transform: rotate(11deg); animation-delay: -4s; }
+
+.shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.75) 50%, transparent 65%);
+  transform: translateX(-100%);
+  animation: shimmer 5s ease-in-out infinite;
+  z-index: 4;
+  pointer-events: none;
+}
+
+@keyframes driftLines {
+  from { transform: translateX(-4%) translateY(-4%); }
+  to { transform: translateX(4%) translateY(4%); }
+}
+
+@keyframes dotPulse {
+  from { opacity: 0.35; transform: scale(1); }
+  to { opacity: 0.75; transform: scale(1.04); }
+}
+
+@keyframes spinGlow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes softFloat {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-35px, 30px); }
+}
+
+@keyframes titleRise {
+  from { opacity: 0; transform: translateY(22px) scale(0.96); filter: blur(10px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  35% { transform: translate(34px, -26px) scale(1.05); }
+  70% { transform: translate(-26px, 32px) scale(0.96); }
+}
+
+@keyframes ringSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes waveMove {
+  0%, 100% { transform: translateX(-4%) scaleY(1); opacity: 0.35; }
+  50% { transform: translateX(4%) scaleY(1.3); opacity: 0.7; }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-12px); }
+}
+
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.08); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.6) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.55) rotate(180deg); }
+}
+
+@keyframes particleFloat {
+  from { transform: translateY(110vh) translateX(0) scale(0.8); opacity: 0; }
+  10% { opacity: 0.9; }
+  90% { opacity: 0.9; }
+  to { transform: translateY(-20vh) translateX(var(--x)) scale(1.4); opacity: 0; }
+}
+
+@keyframes comet {
+  from { transform: translateX(-25vw) rotate(var(--r)); opacity: 0; }
+  12% { opacity: 1; }
+  65% { opacity: 1; }
+  to { transform: translateX(145vw) rotate(var(--r)); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0%, 45% { transform: translateX(-120%); }
+  70%, 100% { transform: translateX(120%); }
+}
+
+@media (max-width: 640px) {
+  .card {
+    min-height: 500px;
+    border-radius: 34px;
+    padding: 88px 22px 54px;
+  }
+
+  .cartoon {
+    width: 120px;
+    height: 120px;
+    top: 30px;
+  }
+
+  .face {
+    width: 62px;
+    height: 62px;
+    left: 29px;
+  }
+
+  .body-shape {
+    width: 86px;
+    height: 48px;
+    left: 17px;
+    top: 74px;
+  }
+}
+</style>
+</head>
+
+<body>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="orb o4"></div>
+
+  <div class="ring r1"></div>
+  <div class="ring r2"></div>
+
+  <div class="wave w1"></div>
+  <div class="wave w2"></div>
+  <div class="wave w3"></div>
+
+  <div class="spark s1"></div>
+  <div class="spark s2"></div>
+  <div class="spark s3"></div>
+  <div class="spark s4"></div>
+  <div class="spark s5"></div>
+
+  <div class="comet c1" style="--r:-18deg;"></div>
+  <div class="comet c2" style="--r:11deg;"></div>
+
+  <main class="scene">
+    <section class="card">
+      <div class="shimmer"></div>
+
+      <div class="cartoon" aria-hidden="true">
+        <div class="face"></div>
+        <div class="body-shape"></div>
+      </div>
+
+      <div class="content">
+        <h1>Gather the scattered into one</h1>
+        <h2>Rebuilding beautiful fellowship</h2>
+        <p>Encouragement from afar</p>
+      </div>
+    </section>
+  </main>
+
+<script>
+const count = 120;
+
+for (let i = 0; i < count; i++) {
+  const p = document.createElement("span");
+  p.className = "particle";
+
+  const size = Math.random() * 7 + 2;
+  p.style.width = size + "px";
+  p.style.height = size + "px";
+  p.style.left = Math.random() * 100 + "vw";
+  p.style.animationDuration = Math.random() * 12 + 8 + "s";
+  p.style.animationDelay = Math.random() * -20 + "s";
+  p.style.setProperty("--x", (Math.random() * 160 - 80) + "px");
+
+  document.body.appendChild(p);
+}
+</script>
+</body>
+</html>
